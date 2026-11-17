@@ -17,7 +17,7 @@ npm test
 npm run build    # static files in dist/
 ```
 
-Choose what is woven in the address: `?scene=tartan&seed=12` (a made-up tartan; leave out the seed for a new one each time), `plain`, `twill`, `herringbone` or `houndstooth`. Also `?speed=` (rows per second), `?cell=` (pixels per thread) and `?caption=off`.
+Choose what is woven in the address: `?scene=tartan&seed=12` (a made-up tartan; leave out the seed for a new one each time), `plain`, `basket`, `twill`, `point`, `diamond`, `herringbone`, `satin`, `houndstooth`, `glen` or `gunclub`. Or weave your own tartan: `?sett=B6 G6 B6 R2 Y4`, with colours K (black), R, G, B, Y and W. Also `?speed=` (rows per second), `?cell=` (pixels per thread) and `?caption=off`.
 
 ## Licence
 

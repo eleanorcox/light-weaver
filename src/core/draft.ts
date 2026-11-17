@@ -47,3 +47,35 @@ export function herringbone(block: number): Draft {
   const back = Array.from({ length: block }, (_, k) => wrap(start - k, 4));
   return { threading: [...forward, ...back], tieUp: TWILL_22_TIE_UP, treadling: [0, 1, 2, 3] };
 }
+
+// Threading that runs up the four shafts and back down (0 1 2 3 2 1), so the twill zigzags.
+const POINT = [0, 1, 2, 3, 2, 1];
+
+export function pointTwill(): Draft {
+  return { threading: POINT, tieUp: TWILL_22_TIE_UP, treadling: [0, 1, 2, 3] };
+}
+
+// Point threading and point treadling: the zigzag turns back down the cloth too, making diamonds.
+export function diamondTwill(): Draft {
+  return { threading: POINT, tieUp: TWILL_22_TIE_UP, treadling: POINT };
+}
+
+// Plain weave with every thread doubled, warp and weft.
+export function basketWeave(): Draft {
+  return { threading: [0, 0, 1, 1], tieUp: [[0], [1]], treadling: [0, 0, 1, 1] };
+}
+
+function gcd(a: number, b: number): number {
+  return b === 0 ? a : gcd(b, a % b);
+}
+
+// A warp-faced satin: one warp thread lifted in every `ends`, moving `step` threads along each
+// pick. The step must share no factor with `ends` (or some threads are never lifted) and must
+// not be 1 or ends − 1 (which would be a twill).
+export function satin(ends: number, step: number): Draft {
+  if (step <= 1 || step >= ends - 1 || gcd(ends, step) !== 1) {
+    throw new Error(`A ${ends}-end satin cannot step ${step}`);
+  }
+  const shafts = Array.from({ length: ends }, (_, k) => k);
+  return { threading: shafts, tieUp: shafts.map((t) => [(t * step) % ends]), treadling: shafts };
+}

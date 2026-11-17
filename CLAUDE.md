@@ -30,5 +30,6 @@ Run `npm test` and `npm run typecheck` before calling anything done.
 
 - `src/core/` is the weave core, "the core" in the shared rules: drafts, drawdowns, setts, the seeded random generator. No DOM, no browser APIs, no clock, no `Math.random`.
 - `src/render/` only reads a `Cloth`. Timing and animation live here.
-- `src/scenes.ts` builds a cloth and its caption from the address (`?scene=`, `?seed=`).
-- Address settings, not controls: `?scene=`, `?seed=`, `?speed=` (picks per second), `?cell=` (pixels per thread), `?caption=off`.
+- `src/core/order.ts` turns colour orders ("L4 K4") into thread colours; `woven()` combines one with a draft.
+- `src/scenes.ts` builds a cloth and its caption from the address (`?scene=`, `?seed=`, `?sett=`).
+- Address settings, not controls: `?scene=`, `?seed=`, `?sett=`, `?speed=` (picks per second), `?cell=` (pixels per thread), `?caption=off`.

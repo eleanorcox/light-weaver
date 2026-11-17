@@ -29,3 +29,18 @@ describe('scenes', () => {
     expect(sceneFromAddress('?scene=tartan', () => 0.5).seed).toBeTypeOf('number');
   });
 });
+
+describe('a sett typed into the address', () => {
+  it('weaves the given sett and says so', () => {
+    const scene = sceneFromAddress('?sett=B6 G6 B6 R2 Y4');
+    expect(scene.name).toBe('sett');
+    expect(scene.caption).toMatch(/B6 G6 B6 R2 Y4/);
+    expect(scene.cloth.warpColour(0)).toBe(scene.cloth.weftColour(0));
+  });
+
+  it('falls back to a made-up tartan and says what was wrong with a sett it cannot read', () => {
+    const scene = sceneFromAddress('?sett=B6 banana');
+    expect(scene.name).toBe('tartan');
+    expect(scene.caption).toMatch(/banana/);
+  });
+});

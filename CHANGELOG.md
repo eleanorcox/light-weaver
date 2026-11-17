@@ -6,6 +6,10 @@ Versions are numbered v1, v2 and so on, each with a git tag of the same name. Ne
 
 ## Unreleased
 
+Nothing yet.
+
+## v1: first light (17 November 2026)
+
 ### Added
 
 - Cloth weaves itself in threads of light, row by row: a point of light carries each weft across, alternating direction, and the woven cloth moves up as the unwoven warp glows below. It opens with the screen already woven.

@@ -2,7 +2,7 @@ import { type Cloth } from './core/cloth';
 import { basketWeave, diamondTwill, drawdown, herringbone, plainWeave, pointTwill, satin, twill22 } from './core/draft';
 import { woven } from './core/order';
 import { generateSett, seededRandom } from './core/random';
-import { tartan } from './core/tartan';
+import { formatSett, parseSett, tartan } from './core/tartan';
 
 export interface Scene {
   name: string;
@@ -97,7 +97,7 @@ export function sceneFromAddress(search: string, random: () => number = Math.ran
       return {
         name: 'sett',
         cloth: tartan({ sett: typed, symmetry: 'symmetric', colours: LIGHT }),
-        caption: `Your tartan · sett ${typed.trim()}`,
+        caption: `Your tartan · sett ${formatSett(parseSett(typed))}`,
       };
     } catch (error) {
       const reason = error instanceof Error ? error.message : String(error);

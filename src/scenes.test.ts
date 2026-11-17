@@ -31,8 +31,8 @@ describe('scenes', () => {
 });
 
 describe('a sett typed into the address', () => {
-  it('weaves the given sett and says so', () => {
-    const scene = sceneFromAddress('?sett=B6 G6 B6 R2 Y4');
+  it('weaves the given sett and says so, written out in the usual form', () => {
+    const scene = sceneFromAddress('?sett=B6G6B6R2Y4');
     expect(scene.name).toBe('sett');
     expect(scene.caption).toMatch(/B6 G6 B6 R2 Y4/);
     expect(scene.cloth.warpColour(0)).toBe(scene.cloth.weftColour(0));

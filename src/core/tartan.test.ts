@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { expandSett, parseSett, tartan } from './tartan';
+import { expandSett, formatSett, parseSett, tartan } from './tartan';
 
 describe('parseSett', () => {
   it('reads colour letters and thread counts', () => {
@@ -18,12 +18,28 @@ describe('parseSett', () => {
     ]);
   });
 
+  it('reads a sett written with no spaces, as it would be in a web address', () => {
+    expect(parseSett('K4R24K24Y4')).toEqual(parseSett('K4 R24 K24 Y4'));
+    expect(parseSett('DB12W2')).toEqual(parseSett('DB12 W2'));
+  });
+
+  it('accepts commas, underscores or dashes between stripes, and lower-case letters', () => {
+    for (const text of ['K4,R24,K24,Y4', 'K4_R24_K24_Y4', 'K4-R24-K24-Y4', 'k4 r24 k24 y4']) {
+      expect(parseSett(text)).toEqual(parseSett('K4 R24 K24 Y4'));
+    }
+  });
+
+  it('writes a sett back out in the usual form, spaces between stripes', () => {
+    expect(formatSett(parseSett('B6G6B6R2Y4'))).toBe('B6 G6 B6 R2 Y4');
+  });
+
   it('refuses half counts at the pivots until we know how to read them', () => {
     expect(() => parseSett('K/2 R24 Y/2')).toThrow(/half count/);
   });
 
   it('refuses anything that is not a thread count, saying where', () => {
     expect(() => parseSett('K4 banana')).toThrow(/banana/);
+    expect(() => parseSett('K4R')).toThrow(/K4R/);
     expect(() => parseSett('')).toThrow(/empty/);
     expect(() => parseSett('K0')).toThrow(/K0/);
   });

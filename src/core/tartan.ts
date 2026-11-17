@@ -9,19 +9,28 @@ export interface Stripe {
 export type Symmetry = 'symmetric' | 'asymmetric';
 
 // Reads a thread count such as "K4 R24 K24 Y4": colour letters, then a number of threads.
+// Stripes may also be run together ("K4R24K24Y4", for web addresses) or separated by commas,
+// underscores or dashes. Letters may be lower case.
 export function parseSett(text: string): Stripe[] {
-  const parts = text.trim().split(/\s+/).filter(Boolean);
+  const parts = text.toUpperCase().split(/[\s,_-]+/).filter(Boolean);
   if (parts.length === 0) throw new Error('The thread count is empty');
-  return parts.map((part) => {
+  return parts.flatMap((part) => {
     if (part.includes('/')) {
       throw new Error(`"${part}" is a half count at a pivot, which is not supported yet`);
     }
-    const match = /^([A-Z]+)(\d+)$/.exec(part);
-    if (!match || Number(match[2]) === 0) {
-      throw new Error(`"${part}" is not a colour letter followed by a number of threads`);
+    if (!/^([A-Z]+\d+)+$/.test(part)) {
+      throw new Error(`"${part}" is not colour letters followed by a number of threads`);
     }
-    return { colour: match[1]!, count: Number(match[2]) };
+    return [...part.matchAll(/([A-Z]+)(\d+)/g)].map((m) => {
+      if (Number(m[2]) === 0) throw new Error(`"${m[0]}" has no threads`);
+      return { colour: m[1]!, count: Number(m[2]) };
+    });
   });
+}
+
+// A sett written out in the usual form, with spaces between stripes.
+export function formatSett(stripes: readonly Stripe[]): string {
+  return stripes.map((s) => `${s.colour}${s.count}`).join(' ');
 }
 
 // One colour code per thread for a single repeat of the sett. A symmetric sett runs forward

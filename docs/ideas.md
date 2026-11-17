@@ -62,6 +62,12 @@ The weft does not run edge to edge: each colour is woven back and forth in its o
 
 Bundles of thread are tied and dyed before weaving, so the pattern is already in the threads, and it blurs slightly where they do not line up exactly. In light: a pattern that sharpens as the threads settle into place.
 
+## Favourite seeds
+
+Made-up tartans worth keeping, to become named scenes or a playlist:
+
+- `?scene=tartan&seed=780891`: sett B6 G6 B6 R2 Y4. Blue ground with green, and red and yellow accents.
+
 ## A slowly changing pattern
 
 One small change to the draft or sett at a time, so the cloth evolves as it is woven. Within a tradition's rules, so it stays recognisably that tradition.

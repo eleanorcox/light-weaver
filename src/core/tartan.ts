@@ -12,14 +12,16 @@ export type Symmetry = 'symmetric' | 'asymmetric';
 // Stripes may also be run together ("K4R24K24Y4", for web addresses) or separated by commas,
 // underscores or dashes. Letters may be lower case.
 export function parseSett(text: string): Stripe[] {
-  const parts = text.toUpperCase().split(/[\s,_-]+/).filter(Boolean);
+  const parts = text.split(/[\s,_-]+/).filter(Boolean);
   if (parts.length === 0) throw new Error('The thread count is empty');
-  return parts.flatMap((part) => {
+  return parts.flatMap((typed) => {
+    // Messages quote what was typed; reading is done in capitals.
+    const part = typed.toUpperCase();
     if (part.includes('/')) {
-      throw new Error(`"${part}" is a half count at a pivot, which is not supported yet`);
+      throw new Error(`"${typed}" is a half count at a pivot, which is not supported yet`);
     }
     if (!/^([A-Z]+\d+)+$/.test(part)) {
-      throw new Error(`"${part}" is not colour letters followed by a number of threads`);
+      throw new Error(`"${typed}" is not colour letters followed by a number of threads`);
     }
     return [...part.matchAll(/([A-Z]+)(\d+)/g)].map((m) => {
       if (Number(m[2]) === 0) throw new Error(`"${m[0]}" has no threads`);

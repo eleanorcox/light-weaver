@@ -9,6 +9,7 @@ How we work, git, writing and subagent rules are shared by all the projects and 
 - **The pattern comes from weaving rules.** The core works out which thread is on top at every crossing from the tradition's own structure (a loom draft, a tartan's stripe sequence, a strip layout), never from a picture of the finished cloth. Drawing only reads the result. Same input, same cloth.
 - **Every tradition has sources.** A tradition is added only with sources for where it comes from, how it is woven and its patterns. Facts without a source are labelled unchecked.
 - **Respect is part of the catalogue.** Each tradition's file records what is appropriate to reproduce. Restricted or sacred designs are left out. Traditions are named accurately, not as a country or a vague region, and are not mixed into hybrids unless Eleanor chooses to.
+- **Protected names stay off our cloth.** "Harris Tweed" and its Orb are protected by law and by the Harris Tweed Authority: our output is never called Harris Tweed. Use "tweed in the tradition of Hebridean weaving". Named mill designs (such as Melin Tregwynt's) are not reproduced without permission. See [docs/research/british-traditions.md](docs/research/british-traditions.md).
 - **It is only watched.** No controls while it plays; anything that varies is chosen before it starts.
 - **Our own piece, not a copy.** Moyer's Illoominated II is the inspiration and is credited; the plan does not reproduce its look or set-up.
 

@@ -1,6 +1,6 @@
 # Light Weaver
 
-Light Weaver is the working name. A passive visual: threads of light weave cloth in the patterns of heritage textiles, generated from real weaving rules, for a screen and later projection. Nothing is built yet. It is built in the browser with TypeScript; British traditions come first. Read [docs/vision.md](docs/vision.md) and [docs/open-questions.md](docs/open-questions.md) before planning or building anything.
+Light Weaver is the working name. A passive visual: threads of light weave cloth in the patterns of heritage textiles, generated from real weaving rules, for a screen and later projection. TypeScript, Vite, Vitest, drawn with Canvas 2D for now. British traditions come first. Read [docs/vision.md](docs/vision.md) and [docs/open-questions.md](docs/open-questions.md) before planning or building anything.
 
 How we work, git, writing and subagent rules are shared by all the projects and live in [../CLAUDE.md](../CLAUDE.md). This file adds what is specific to Light Weaver.
 
@@ -15,4 +15,20 @@ How we work, git, writing and subagent rules are shared by all the projects and 
 
 ## Commands
 
-None yet: they arrive with the project set-up.
+```sh
+nvm use            # Node 24, pinned in .nvmrc
+npm install
+npm run dev        # local dev server
+npm test           # all tests, once
+npm run typecheck  # type check only
+npm run build      # type check, then build into dist/
+```
+
+Run `npm test` and `npm run typecheck` before calling anything done.
+
+## Code rules
+
+- `src/core/` is the weave core, "the core" in the shared rules: drafts, drawdowns, setts, the seeded random generator. No DOM, no browser APIs, no clock, no `Math.random`.
+- `src/render/` only reads a `Cloth`. Timing and animation live here.
+- `src/scenes.ts` builds a cloth and its caption from the address (`?scene=`, `?seed=`).
+- Address settings, not controls: `?scene=`, `?seed=`, `?speed=` (picks per second), `?cell=` (pixels per thread), `?caption=off`.

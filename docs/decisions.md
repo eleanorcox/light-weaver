@@ -35,6 +35,8 @@ Template:
 | [4](#4-a-passive-visual) | A passive visual | 17 Nov 2026 | Decided |
 | [5](#5-built-in-the-browser) | Built in the browser | 17 Nov 2026 | Decided |
 | [6](#6-british-traditions-first) | British traditions first | 17 Nov 2026 | Decided |
+| [7](#7-the-same-set-up-as-the-aquarium-canvas-2d-first) | The same set-up as the aquarium; Canvas 2D first | 17 Nov 2026 | Built |
+| [8](#8-made-up-tartans-before-registered-ones) | Made-up tartans before registered ones | 17 Nov 2026 | Built |
 
 ## 1. Working name: Light Weaver
 
@@ -89,3 +91,21 @@ Template:
 - **Decision:** The first traditions in the catalogue are British. Which one comes first waits on research into where real patterns are published and what may be reproduced.
 - **Alternatives considered:** Starting with a mix from around the world, or with one with a personal link such as Dumbara. Lost for now: British traditions are close to home, well documented and a coherent first set.
 - **What follows from it:** A research plan, [research/british-traditions.md](research/british-traditions.md). Traditions from elsewhere follow once the catalogue format has been proven.
+
+## 7. The same set-up as the aquarium; Canvas 2D first
+
+- **Date:** 17 November 2026
+- **Status:** Built
+- **What prompted it:** Starting to build, with the browser already chosen.
+- **Decision:** TypeScript, Vite and Vitest, configured as in the aquarium. The weave core in `src/core/` has no drawing code and is tested; the first renderer uses Canvas 2D, drawing each crossing as a short glowing dash, and only redraws the newest row.
+- **Alternatives considered:** WebGL or Three.js from the start. Lost for now: the look is not decided (open question 4), and Canvas 2D was enough to see whether the idea works. The aquarium made the same choice for its first renderer.
+- **What follows from it:** A WebGL renderer can replace it without touching the core, if more threads, bigger screens or real lighting need it.
+
+## 8. Made-up tartans before registered ones
+
+- **Date:** 17 November 2026
+- **Status:** Built
+- **What prompted it:** The research found that real thread counts need an account with the Scottish Register of Tartans, and bulk use needs their permission.
+- **Decision:** The first tartans are made up from a seed: 3 to 7 stripes, even counts, wide grounds and narrow accents, never one colour twice in a row. Each says on screen that it is made up and shows its sett and seed.
+- **Alternatives considered:** Waiting for access to registered tartans; using the third-party copy of the register, whose terms are unclear.
+- **What follows from it:** Registered tartans join the catalogue once access is agreed, credited to the register and their designers.

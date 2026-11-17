@@ -37,6 +37,8 @@ Template:
 | [6](#6-british-traditions-first) | British traditions first | 17 Nov 2026 | Decided |
 | [7](#7-the-same-set-up-as-the-aquarium-canvas-2d-first) | The same set-up as the aquarium; Canvas 2D first | 17 Nov 2026 | Built |
 | [8](#8-made-up-tartans-before-registered-ones) | Made-up tartans before registered ones | 17 Nov 2026 | Built |
+| [9](#9-one-cloth-after-another) | One cloth after another | 17 Nov 2026 | Built |
+| [10](#10-kasuri-first-kente-and-dumbara-wait) | Kasuri first; kente and Dumbara wait | 17 Nov 2026 | Built |
 
 ## 1. Working name: Light Weaver
 
@@ -109,3 +111,21 @@ Template:
 - **Decision:** The first tartans are made up from a seed: 3 to 7 stripes, even counts, wide grounds and narrow accents, never one colour twice in a row. Each says on screen that it is made up and shows its sett and seed.
 - **Alternatives considered:** Waiting for access to registered tartans; using the third-party copy of the register, whose terms are unclear.
 - **What follows from it:** Registered tartans join the catalogue once access is agreed, credited to the register and their designers.
+
+## 9. One cloth after another
+
+- **Date:** 17 November 2026
+- **Status:** Built
+- **What prompted it:** Eleanor asked for weaving one cloth into another. A passive piece should move through designs by itself.
+- **Decision:** A programme of pieces, each woven for a number of picks, with 16 picks of bare loom between them, repeating for ever. With no address, every design plays in turn; `?play=` chooses a list. The unwoven warp and the caption change with each piece.
+- **Alternatives considered:** Changing the weft and treadling on the same warp, as a real loom would between pieces. Truer to weaving, but most designs differ in their warp too.
+- **What follows from it:** Rows of a piece are counted from 0, so each piece starts at the beginning of its pattern.
+
+## 10. Kasuri first; kente and Dumbara wait
+
+- **Date:** 17 November 2026
+- **Status:** Built
+- **What prompted it:** Eleanor asked for heritage weaves from outside Britain. Research ([elsewhere.md](research/elsewhere.md)) recommended kasuri, kente and Dumbara, and found that kente designs are held in trust for the people of Ghana, with permission needed from the National Folklore Board for use outside their customary context, and that no sources for Dumbara motifs are published.
+- **Decision:** Build kasuri now, with our own motif, called "kasuri, in the tradition of Kurume". Kente waits until Eleanor decides whether to ask the National Folklore Board; Dumbara waits for motif sources.
+- **Alternatives considered:** Building kente from structure alone without asking; lost because the Board's position on artistic use is unclear and asking is the respectful order.
+- **What follows from it:** Thread colours may now change along a thread's length (`warpColour(i, j)`), which ikat and other dyed traditions will also need.

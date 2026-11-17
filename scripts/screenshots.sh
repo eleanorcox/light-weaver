@@ -12,9 +12,10 @@ if [ ${#names[@]} -eq 0 ]; then
 fi
 
 npx vite build >/dev/null
-npx vite preview --port 4178 --strictPort >/dev/null 2>&1 &
+# Run the preview server directly (not through npx) so stopping it stops the server itself.
+node node_modules/vite/bin/vite.js preview --port 4178 --strictPort >/dev/null 2>&1 &
 server=$!
-trap 'kill $server' EXIT
+trap 'kill $server 2>/dev/null' EXIT
 sleep 2
 
 for name in "${names[@]}"; do

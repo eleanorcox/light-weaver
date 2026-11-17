@@ -68,6 +68,17 @@ Built so far, from drafts and colour orders: see the [design gallery](designs.md
 
 Next candidates: barleycorn (named in the Hebridean tweed research), birdseye, overshot (a second, thicker weft floating over a plain ground), and double cloth for the Welsh blankets, which needs each crossing to know which layer is on top.
 
+## Rugs
+
+Eleanor's suggestion. Rugs need structures beyond the crossing grid:
+
+- **Knotted pile** (Persian and Turkish knots, Axminster and Wilton carpets): each knot is a tuft of colour tied round a pair of warp threads, so the pattern is a grid of knots, closer to pixels than to a draft.
+- **Kilim** (slit tapestry): each colour is woven back and forth in its own area, leaving slits where colours meet.
+- **Soumak**: weft wrapped round the warp, giving a braided look.
+- **Rag rugs and rya**.
+
+All need research first: many rug traditions carry motifs that belong to particular communities, regions or families. Axminster and Wilton were already in the British candidates.
+
 ## Favourite seeds
 
 Made-up tartans worth keeping, to become named scenes or a playlist:

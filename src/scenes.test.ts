@@ -21,7 +21,7 @@ describe('scenes', () => {
     const b = sceneFromAddress('?scene=tartan&seed=12').pieces[0]!;
     expect(a.caption).toBe(b.caption);
     expect(a.caption).toMatch(/made-up/i);
-    for (let n = 0; n < 50; n++) expect(a.cloth.warpColour(n)).toBe(b.cloth.warpColour(n));
+    for (let n = 0; n < 50; n++) expect(a.cloth.warpColour(n, 0)).toBe(b.cloth.warpColour(n, 0));
   });
 
   it('reports the seed it used, so a drawn tartan can be shown again', () => {
@@ -56,7 +56,7 @@ describe('a sett typed into the address', () => {
   it('weaves the given sett and says so, written out in the usual form', () => {
     const piece = sceneFromAddress('?sett=B6G6B6R2Y4').pieces[0]!;
     expect(piece.caption).toMatch(/B6 G6 B6 R2 Y4/);
-    expect(piece.cloth.warpColour(0)).toBe(piece.cloth.weftColour(0));
+    expect(piece.cloth.warpColour(0, 0)).toBe(piece.cloth.weftColour(0, 0));
   });
 
   it('falls back to a made-up tartan and says what was wrong with a sett it cannot read', () => {
@@ -69,18 +69,18 @@ describe('a sett typed into the address', () => {
 describe('colours in the address', () => {
   it('changes the colours a design uses', () => {
     const piece = sceneFromAddress('?scene=houndstooth&colours=L-ff0000').pieces[0]!;
-    expect(piece.cloth.warpColour(0)).toBe('#ff0000');
+    expect(piece.cloth.warpColour(0, 0)).toBe('#ff0000');
   });
 
   it('adds new colour letters that a typed sett can use', () => {
     const piece = sceneFromAddress('?sett=P4K4&colours=P-9b4dff').pieces[0]!;
-    expect(piece.cloth.warpColour(0)).toBe('#9b4dff');
+    expect(piece.cloth.warpColour(0, 0)).toBe('#9b4dff');
   });
 
   it('says so in the caption when the colours cannot be read, and uses the usual ones', () => {
     const piece = sceneFromAddress('?scene=houndstooth&colours=L-red').pieces[0]!;
     expect(piece.caption).toMatch(/L-red/);
-    expect(piece.cloth.warpColour(0)).not.toBe('red');
+    expect(piece.cloth.warpColour(0, 0)).not.toBe('red');
   });
 });
 

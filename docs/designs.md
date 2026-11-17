@@ -139,3 +139,11 @@ A plain ground crossed by thin lines, like panes of glass.
 Thin lines of two colours, alternating, crossing a light ground.
 
 ![Tattersall](designs/tattersall.png)
+
+## Kasuri, in the tradition of Kurume
+
+`?scene=kasuri`
+
+Warp and weft are tied and dyed with indigo before weaving, so the pattern forms with soft edges as the threads meet. The motif is our own, not a traditional one. Sources and credits: [research/elsewhere.md](research/elsewhere.md#kasuri-in-the-tradition-of-kurume).
+
+![Kasuri](designs/kasuri.png)

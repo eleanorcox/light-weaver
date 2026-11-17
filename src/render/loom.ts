@@ -16,7 +16,7 @@ const BACKGROUND = '#05050a';
 // the weft is.
 function drawCrossing(ctx: CanvasRenderingContext2D, cloth: Cloth, i: number, j: number, x: number, y: number, c: number): void {
   const up = cloth.warpUp(i, j);
-  const colour = up ? cloth.warpColour(i) : cloth.weftColour(j);
+  const colour = up ? cloth.warpColour(i, j) : cloth.weftColour(j, i);
   ctx.strokeStyle = colour;
   ctx.shadowColor = colour;
   ctx.beginPath();
@@ -68,6 +68,7 @@ export function startLoom(canvas: HTMLCanvasElement, at: (j: number) => Place | 
   }
 
   let warpCloth: Cloth | null = null;
+  let warpFrom = 0; // the pick at the fell when the warp was drawn
   let lastIndex = -1;
 
   // Rebuilds everything at the current size. The cloth is the same for the same pick numbers,
@@ -109,10 +110,11 @@ export function startLoom(canvas: HTMLCanvasElement, at: (j: number) => Place | 
     warpCtx.clearRect(0, 0, width, height);
     const cloth = warpCloth;
     if (!cloth) return;
+    const warpPick = warpFrom;
     warpCtx.lineWidth = c * 0.3;
     for (let i = 0; i < columns; i++) {
       const g = warpCtx.createLinearGradient(0, fellY, 0, height);
-      g.addColorStop(0, cloth.warpColour(i));
+      g.addColorStop(0, cloth.warpColour(i, warpPick));
       g.addColorStop(1, 'transparent');
       warpCtx.strokeStyle = g;
       warpCtx.globalAlpha = 0.45;
@@ -146,6 +148,7 @@ export function startLoom(canvas: HTMLCanvasElement, at: (j: number) => Place | 
     if (place && place.index !== lastIndex) {
       lastIndex = place.index;
       warpCloth = place.piece.cloth;
+      warpFrom = place.pick;
       drawWarp();
       options.onPiece?.(place);
     }
@@ -167,7 +170,7 @@ export function startLoom(canvas: HTMLCanvasElement, at: (j: number) => Place | 
       const sy = fellY + c / 2;
       const glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, c * 5);
       glow.addColorStop(0, '#ffffff');
-      glow.addColorStop(0.15, place.piece.cloth.weftColour(place.pick));
+      glow.addColorStop(0.15, place.piece.cloth.weftColour(place.pick, reached));
       glow.addColorStop(1, 'transparent');
       ctx.shadowBlur = 0;
       ctx.globalCompositeOperation = 'lighter';

@@ -1,4 +1,6 @@
 import { brokenTwill, basketWeave, diamondTwill, herringbone, plainWeave, pointTwill, satin, twill, twill22, type Draft } from './core/draft';
+import type { Cloth } from './core/cloth';
+import { kasuri } from './core/kasuri';
 import { woven } from './core/order';
 import { parseColours, type Palette } from './core/palette';
 import type { Piece } from './core/programme';
@@ -23,14 +25,22 @@ const LIGHT: Palette = {
 };
 
 // A design is a draft and colour orders for warp and weft, written with colour letters, so
-// any of its colours can be changed from the address.
-interface Design {
-  draft: () => Draft;
-  warp: string;
-  weft: string;
-  palette: Palette;
-  caption: string;
-}
+// any of its colours can be changed from the address; or, for cloth that is more than a draft
+// and colour orders, a function that makes it from the colours.
+type Design = { palette: Palette; caption: string } & (
+  | { draft: () => Draft; warp: string; weft: string }
+  | { make: (palette: Palette) => Cloth }
+);
+
+// Our own kasuri motif, not a traditional one: small crosses, each row of them half a repeat
+// along from the last.
+const CROSSES = Array.from({ length: 16 }, (_, y) =>
+  Array.from({ length: 16 }, (_, x) => {
+    const cross = (cx: number, cy: number): boolean =>
+      (Math.abs(x - cx) <= 3 && y >= cy - 1 && y <= cy) || (Math.abs(y - cy + 0.5) <= 3.5 && x >= cx - 1 && x <= cx);
+    return cross(4, 4) || cross(12, 12) ? '#' : '.';
+  }).join(''),
+);
 
 const GLEN = 'L4 K4 L4 K4 L4 K4 L2 K2 L2 K2 L2 K2 L2 K2 L2 K2 L2 K2';
 
@@ -56,6 +66,11 @@ const DESIGNS: Record<string, Design> = {
   },
   gunclub: { draft: twill22, warp: 'W6 G6', weft: 'W6 R6', palette: { W: '#f4ecd8', G: '#2f9a5a', R: '#c8502a' }, caption: 'Gun club check: a three-colour twill check, one colour crossing the warp and another the weft' },
   windowpane: { draft: twill22, warp: 'G30 W2', weft: 'G30 W2', palette: { G: '#2f6a4a', W: '#f4ecd8' }, caption: 'Windowpane: a plain ground crossed by thin lines, like panes of glass' },
+  kasuri: {
+    make: (p) => kasuri({ motif: CROSSES, colours: { dyed: p.I!, undyed: p.W! }, drift: 1, seed: 1 }),
+    palette: { I: '#2f4fb0', W: '#f4ecd8' },
+    caption: 'Kasuri, in the tradition of Kurume: warp and weft tied and dyed with indigo before weaving, so the pattern forms with soft edges as the threads meet. Our own motif',
+  },
   tattersall: { draft: plainWeave, warp: 'W10 R2 W10 G2', weft: 'W10 R2 W10 G2', palette: { W: '#f4ecd8', R: '#ff3b4a', G: '#2fd27a' }, caption: 'Tattersall: thin lines of two colours, alternating, crossing a light ground' },
 };
 
@@ -70,7 +85,8 @@ interface Settings {
 function design(name: string, s: Settings): Piece {
   const d = DESIGNS[name]!;
   const palette = { ...d.palette, ...s.colours };
-  return { cloth: woven(d.draft(), d.warp, d.weft, palette), caption: s.note + d.caption, picks: s.picks };
+  const cloth = 'make' in d ? d.make(palette) : woven(d.draft(), d.warp, d.weft, palette);
+  return { cloth, caption: s.note + d.caption, picks: s.picks };
 }
 
 function madeUpTartan(seed: number, s: Settings): Piece {

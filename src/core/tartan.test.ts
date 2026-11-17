@@ -62,11 +62,11 @@ describe('tartan', () => {
   const cloth = tartan({ sett: 'K2 R3 Y1', symmetry: 'symmetric', colours });
 
   it('uses the same sett for warp and weft', () => {
-    for (let n = 0; n < 18; n++) expect(cloth.warpColour(n)).toBe(cloth.weftColour(n));
+    for (let n = 0; n < 18; n++) expect(cloth.warpColour(n, 0)).toBe(cloth.weftColour(n, 0));
   });
 
   it('colours the threads from the sett, repeating it', () => {
-    expect([0, 2, 5, 6, 9].map((n) => cloth.warpColour(n))).toEqual([
+    expect([0, 2, 5, 6, 9].map((n) => cloth.warpColour(n, 0))).toEqual([
       '#101010',
       '#b01020',
       '#e0c020',

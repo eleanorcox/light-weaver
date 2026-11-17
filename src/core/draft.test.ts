@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { basketWeave, diamondTwill, drawdown, herringbone, plainWeave, pointTwill, satin, twill22 } from './draft';
+import { basketWeave, brokenTwill, diamondTwill, drawdown, herringbone, plainWeave, pointTwill, satin, twill, twill22 } from './draft';
 
 // Rows of the drawdown as strings: '|' where the warp is on top, '-' where the weft is.
 function picture(draft: Parameters<typeof drawdown>[0], ends: number, picks: number): string[] {
@@ -112,5 +112,29 @@ describe('satin', () => {
   it('refuses a step that would make a twill or repeat a thread', () => {
     expect(() => satin(5, 1)).toThrow();
     expect(() => satin(6, 2)).toThrow();
+  });
+});
+
+describe('twill by its counts', () => {
+  it('weaves 3/1 twill: over three, under one, stepping one thread each pick', () => {
+    expect(picture(twill(3, 1), 8, 4)).toEqual(['|||-|||-', '-|||-|||', '|-|||-||', '||-|||-|']);
+  });
+
+  it('weaves 2/1 twill on three shafts', () => {
+    expect(picture(twill(2, 1), 6, 3)).toEqual(['||-||-', '-||-||', '|-||-|']);
+  });
+
+  it('gives the same cloth as the named 2/2 twill', () => {
+    expect(picture(twill(2, 2), 12, 8)).toEqual(picture(twill22(), 12, 8));
+  });
+
+  it('refuses counts below one', () => {
+    expect(() => twill(0, 2)).toThrow();
+  });
+});
+
+describe('broken twill', () => {
+  it('keeps two up and two down in every row, but swaps the last two picks so no diagonal runs on', () => {
+    expect(picture(brokenTwill(), 4, 4)).toEqual(['||--', '-||-', '|--|', '--||']);
   });
 });

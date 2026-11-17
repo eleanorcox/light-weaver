@@ -64,9 +64,9 @@ Bundles of thread are tied and dyed before weaving, so the pattern is already in
 
 ## Classic weaves and checks
 
-Built so far, from drafts and colour orders: plain, basket, 2/2 twill, point twill, diamond twill, herringbone, 5-end satin, houndstooth, Glen check, gun club check. The colour orders for houndstooth (four and four), Glen check (blocks of four-and-four and two-and-two) and gun club check (two check colours, one in the warp and one in the weft) are from memory and unchecked; they look right, but need sources before they are named as traditions in the catalogue.
+Built so far, from drafts and colour orders: see the [design gallery](designs.md). Gingham, windowpane, tattersall and Prince of Wales check colour orders are also from memory and unchecked. The colour orders for houndstooth (four and four), Glen check (blocks of four-and-four and two-and-two) and gun club check (two check colours, one in the warp and one in the weft) are from memory and unchecked; they look right, but need sources before they are named as traditions in the catalogue.
 
-Next candidates: barleycorn and broken twill (named in the Hebridean tweed research), Prince of Wales check (a Glen check with an overcheck), birdseye, hopsack, overshot (a second, thicker weft floating over a plain ground), and double cloth for the Welsh blankets, which needs each crossing to know which layer is on top.
+Next candidates: barleycorn (named in the Hebridean tweed research), birdseye, overshot (a second, thicker weft floating over a plain ground), and double cloth for the Welsh blankets, which needs each crossing to know which layer is on top.
 
 ## Favourite seeds
 

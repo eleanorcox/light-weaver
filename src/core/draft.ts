@@ -79,3 +79,20 @@ export function satin(ends: number, step: number): Draft {
   const shafts = Array.from({ length: ends }, (_, k) => k);
   return { threading: shafts, tieUp: shafts.map((t) => [(t * step) % ends]), treadling: shafts };
 }
+
+// A twill named by its counts: over `over` threads, under `under`, on over + under shafts,
+// stepping one thread each pick. 3/1 is the twill of denim.
+export function twill(over: number, under: number): Draft {
+  if (over < 1 || under < 1) throw new Error(`A ${over}/${under} twill is not possible`);
+  const shafts = Array.from({ length: over + under }, (_, k) => k);
+  return {
+    threading: shafts,
+    tieUp: shafts.map((t) => Array.from({ length: over }, (_, k) => (t + k) % shafts.length)),
+    treadling: shafts,
+  };
+}
+
+// A 2/2 twill with the last two picks of each repeat swapped, so the diagonal keeps breaking.
+export function brokenTwill(): Draft {
+  return { threading: [0, 1, 2, 3], tieUp: TWILL_22_TIE_UP, treadling: [0, 1, 3, 2] };
+}

@@ -17,7 +17,14 @@ npm test
 npm run build    # static files in dist/
 ```
 
-Choose what is woven in the address: `?scene=tartan&seed=12` (a made-up tartan; leave out the seed for a new one each time), `plain`, `basket`, `twill`, `point`, `diamond`, `herringbone`, `satin`, `houndstooth`, `glen` or `gunclub`. Or weave your own tartan: `?sett=B6G6B6R2Y4`, with colours K (black), R, G, B, Y and W. Also `?speed=` (rows per second), `?cell=` (pixels per thread) and `?caption=off`.
+**See every design in the [design gallery](docs/designs.md).**
+
+With no address, it weaves every design in turn, one cloth after another. Or choose in the address:
+
+- `?scene=houndstooth`: one design, by its name in the gallery. `?scene=tartan&seed=12` is a made-up tartan; leave out the seed for a new one each time.
+- `?play=glen,satin,tartan`: the listed designs in turn. `?picks=200` sets how many rows each is woven for.
+- `?sett=B6G6B6R2Y4`: your own tartan, with colours K (black), R, G, B, Y and W.
+- `?colours=L-ff0000,P-9b4dff`: change a design's colours, or add new letters for a typed sett. Each design's letters are in `src/scenes.ts`. Also `?speed=` (rows per second), `?cell=` (pixels per thread) and `?caption=off`.
 
 ## Licence
 

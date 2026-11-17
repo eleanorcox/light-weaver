@@ -1,10 +1,13 @@
 import type { Cloth } from '../core/cloth';
+import type { Place } from '../core/programme';
 
 export interface LoomOptions {
   cell: number; // CSS pixels per thread
   picksPerSecond: number;
   // Picks already woven when it starts; by default enough to fill the screen above the fell.
   startPick?: number;
+  // Called when the piece at the fell changes, including at the start.
+  onPiece?: (place: Place) => void;
 }
 
 const BACKGROUND = '#05050a';
@@ -36,7 +39,7 @@ function threadStyle(ctx: CanvasRenderingContext2D, c: number): void {
 // Weaves the cloth for ever: each pick (one pass of the weft) is carried across by a point of
 // light, then joins the woven cloth above, which moves up a row. Woven rows are drawn once
 // into an offscreen canvas; the frame copies it and adds the row being woven.
-export function startLoom(canvas: HTMLCanvasElement, cloth: Cloth, options: LoomOptions): () => void {
+export function startLoom(canvas: HTMLCanvasElement, at: (j: number) => Place | null, options: LoomOptions): () => void {
   const ctx = canvas.getContext('2d')!;
   const woven = document.createElement('canvas');
   const wovenCtx = woven.getContext('2d')!;
@@ -53,13 +56,19 @@ export function startLoom(canvas: HTMLCanvasElement, cloth: Cloth, options: Loom
   let start = performance.now();
   let frame = 0;
 
+  // Draws pick j of the programme; a gap between pieces is left as bare dark loom.
   function drawRowInto(target: CanvasRenderingContext2D, j: number, y: number, upTo: number, fromRight: boolean): void {
+    const place = at(j);
+    if (!place) return;
     threadStyle(target, c);
     for (let n = 0; n < upTo; n++) {
       const i = fromRight ? columns - 1 - n : n;
-      drawCrossing(target, cloth, i, j, i * c, y, c);
+      drawCrossing(target, place.piece.cloth, i, place.pick, i * c, y, c);
     }
   }
+
+  let warpCloth: Cloth | null = null;
+  let lastIndex = -1;
 
   // Rebuilds everything at the current size. The cloth is the same for the same pick numbers,
   // so the visible woven rows can simply be drawn again.
@@ -92,8 +101,14 @@ export function startLoom(canvas: HTMLCanvasElement, cloth: Cloth, options: Loom
       if (j >= 0) drawRowInto(wovenCtx, j, fellY - (rowsAbove - r) * c, columns, false);
     }
 
-    // The unwoven warp below the fell, fading into the dark.
+    drawWarp();
+  }
+
+  // The unwoven warp below the fell, fading into the dark, for the piece being woven.
+  function drawWarp(): void {
     warpCtx.clearRect(0, 0, width, height);
+    const cloth = warpCloth;
+    if (!cloth) return;
     warpCtx.lineWidth = c * 0.3;
     for (let i = 0; i < columns; i++) {
       const g = warpCtx.createLinearGradient(0, fellY, 0, height);
@@ -127,6 +142,14 @@ export function startLoom(canvas: HTMLCanvasElement, cloth: Cloth, options: Loom
     const pick = Math.floor(progress);
     while (committed < pick) commit(committed++);
 
+    const place = at(pick);
+    if (place && place.index !== lastIndex) {
+      lastIndex = place.index;
+      warpCloth = place.piece.cloth;
+      drawWarp();
+      options.onPiece?.(place);
+    }
+
     ctx.globalCompositeOperation = 'source-over';
     ctx.shadowBlur = 0;
     ctx.drawImage(woven, 0, 0, width, height);
@@ -139,16 +162,18 @@ export function startLoom(canvas: HTMLCanvasElement, cloth: Cloth, options: Loom
     const reached = Math.floor((progress - pick) * columns);
     drawRowInto(ctx, pick, fellY, reached, fromRight);
 
-    const sx = fromRight ? width - reached * c : reached * c;
-    const sy = fellY + c / 2;
-    const glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, c * 5);
-    glow.addColorStop(0, '#ffffff');
-    glow.addColorStop(0.15, cloth.weftColour(pick));
-    glow.addColorStop(1, 'transparent');
-    ctx.shadowBlur = 0;
-    ctx.globalCompositeOperation = 'lighter';
-    ctx.fillStyle = glow;
-    ctx.fillRect(sx - c * 5, sy - c * 5, c * 10, c * 10);
+    if (place) {
+      const sx = fromRight ? width - reached * c : reached * c;
+      const sy = fellY + c / 2;
+      const glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, c * 5);
+      glow.addColorStop(0, '#ffffff');
+      glow.addColorStop(0.15, place.piece.cloth.weftColour(place.pick));
+      glow.addColorStop(1, 'transparent');
+      ctx.shadowBlur = 0;
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.fillStyle = glow;
+      ctx.fillRect(sx - c * 5, sy - c * 5, c * 10, c * 10);
+    }
 
     frame = requestAnimationFrame(draw);
   }

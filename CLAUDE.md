@@ -10,6 +10,7 @@ How we work, git, writing and subagent rules are shared by all the projects and 
 - **Every tradition has sources.** A tradition is added only with sources for where it comes from, how it is woven and its patterns. Facts without a source are labelled unchecked.
 - **Respect is part of the catalogue.** Each tradition's file records what is appropriate to reproduce. Restricted or sacred designs are left out. Traditions are named accurately, not as a country or a vague region, and are not mixed into hybrids unless Eleanor chooses to.
 - **Protected names stay off our cloth.** "Harris Tweed" and its Orb are protected by law and by the Harris Tweed Authority: our output is never called Harris Tweed. Use "tweed in the tradition of Hebridean weaving". Named mill designs (such as Melin Tregwynt's) are not reproduced without permission. See [docs/research/british-traditions.md](docs/research/british-traditions.md).
+- **Every design is in the gallery.** A new design gets a screenshot (`npm run screenshots <name>`) and an entry in [docs/designs.md](docs/designs.md), in the same commit. A test checks both.
 - **It is only watched.** No controls while it plays; anything that varies is chosen before it starts.
 - **Our own piece, not a copy.** Moyer's Illoominated II is the inspiration and is credited; the plan does not reproduce its look or set-up.
 
@@ -31,5 +32,6 @@ Run `npm test` and `npm run typecheck` before calling anything done.
 - `src/core/` is the weave core, "the core" in the shared rules: drafts, drawdowns, setts, the seeded random generator. No DOM, no browser APIs, no clock, no `Math.random`.
 - `src/render/` only reads a `Cloth`. Timing and animation live here.
 - `src/core/order.ts` turns colour orders ("L4 K4") into thread colours; `woven()` combines one with a draft.
-- `src/scenes.ts` builds a cloth and its caption from the address (`?scene=`, `?seed=`, `?sett=`).
-- Address settings, not controls: `?scene=`, `?seed=`, `?sett=`, `?speed=` (picks per second), `?cell=` (pixels per thread), `?caption=off`.
+- `src/core/programme.ts` plays pieces one after another, with bare loom between; `src/core/palette.ts` reads `?colours=`.
+- `src/scenes.ts` holds every design (a draft and colour orders in lettered colours) and builds the programme from the address.
+- Address settings, not controls: `?scene=`, `?play=`, `?picks=`, `?colours=`, `?seed=`, `?sett=`, `?speed=` (picks per second), `?cell=` (pixels per thread), `?caption=off`.

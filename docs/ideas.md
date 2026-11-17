@@ -18,7 +18,7 @@ Every idea so far, each with the smallest version worth building. Sizes are roug
 | Showing where it comes from | S | no |
 | Projected on a wall or hanging cloth | S | projector |
 | Projection-mapped onto real spools and a frame | L | projector |
-| A TouchDesigner version | M | Windows or Mac (unchecked) |
+| A TouchDesigner version (not planned: browser chosen) | M | Windows or Mac (unchecked) |
 | Knitting | L | no |
 
 ## The weave core: which thread is on top
@@ -44,7 +44,7 @@ A tartan is one sequence of coloured stripes (its **sett**) used for both the wa
 
 One file per tradition, like the aquarium's one file per species: name, where it comes from, how it is woven, typical colours and yarns, a few patterns, what is and is not appropriate to reproduce, and sources. Adding a file adds a tradition.
 
-Candidates (all unchecked): Harris Tweed, Scottish tartan, Welsh double cloth (carthen), American and Welsh overshot coverlets, Sri Lankan Dumbara weaving, Ghanaian kente, Anatolian and Persian kilims, Indonesian and Central Asian ikat, Japanese kasuri, Andean weaving, Sámi band weaving.
+British traditions come first ([decision 6](decisions.md#6-british-traditions-first)); their candidates and what needs researching are in [research/british-traditions.md](research/british-traditions.md). Later candidates (all unchecked): Harris Tweed, Scottish tartan, Welsh double cloth (carthen), American and Welsh overshot coverlets, Sri Lankan Dumbara weaving, Ghanaian kente, Anatolian and Persian kilims, Indonesian and Central Asian ikat, Japanese kasuri, Andean weaving, Sámi band weaving.
 
 ## Weaving it in light
 
@@ -80,7 +80,7 @@ Real objects, such as spools and a frame, with the light threads running from th
 
 ## A TouchDesigner version
 
-TouchDesigner is a tool for live visuals built by wiring boxes together instead of writing code, and the one Moyer's work appears to have used (unchecked). This could be the project that teaches it. It probably needs a Windows or Mac machine (unchecked).
+TouchDesigner is a tool for live visuals built by wiring boxes together instead of writing code, and the one Moyer's work appears to have used (unchecked). Not planned: Light Weaver is built in the browser ([decision 5](decisions.md#5-built-in-the-browser)). Kept here in case a TouchDesigner version is wanted later for an installation.
 
 ## Knitting
 

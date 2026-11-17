@@ -1,6 +1,6 @@
 # Light Weaver
 
-Light Weaver is the working name. A passive visual: threads of light weave cloth in the patterns of heritage textiles, generated from real weaving rules, for a screen and later projection. Nothing is built yet and the stack is not chosen. Read [docs/vision.md](docs/vision.md) and [docs/open-questions.md](docs/open-questions.md) before planning or building anything.
+Light Weaver is the working name. A passive visual: threads of light weave cloth in the patterns of heritage textiles, generated from real weaving rules, for a screen and later projection. Nothing is built yet. It is built in the browser with TypeScript; British traditions come first. Read [docs/vision.md](docs/vision.md) and [docs/open-questions.md](docs/open-questions.md) before planning or building anything.
 
 How we work, git, writing and subagent rules are shared by all the projects and live in [../CLAUDE.md](../CLAUDE.md). This file adds what is specific to Light Weaver.
 
@@ -14,4 +14,4 @@ How we work, git, writing and subagent rules are shared by all the projects and 
 
 ## Commands
 
-None yet: they arrive with the stack.
+None yet: they arrive with the project set-up.

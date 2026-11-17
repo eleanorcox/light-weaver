@@ -33,6 +33,8 @@ Template:
 | [2](#2-heritage-textiles-woven-from-their-own-rules) | Heritage textiles, woven from their own rules | 17 Nov 2026 | Decided |
 | [3](#3-woven-textiles-only-for-now) | Woven textiles only, for now | 17 Nov 2026 | Decided |
 | [4](#4-a-passive-visual) | A passive visual | 17 Nov 2026 | Decided |
+| [5](#5-built-in-the-browser) | Built in the browser | 17 Nov 2026 | Decided |
+| [6](#6-british-traditions-first) | British traditions first | 17 Nov 2026 | Decided |
 
 ## 1. Working name: Light Weaver
 
@@ -69,3 +71,21 @@ Template:
 - **Decision:** No controls while it plays; anything that varies is chosen before it starts.
 - **Alternatives considered:** None discussed.
 - **What follows from it:** It suits leaving running and projecting.
+
+## 5. Built in the browser
+
+- **Date:** 17 November 2026
+- **Status:** Decided
+- **What prompted it:** The first open question was browser or TouchDesigner. Eleanor chose the browser.
+- **Decision:** TypeScript in the browser, like the aquarium, with the weave core free of drawing code and tested. The drawing library is still to be chosen.
+- **Alternatives considered:** TouchDesigner, the tool Moyer's work appears to use and the standard for projection installations. Lost: it probably needs a Windows or Mac machine (unchecked), cannot be shared as a link, and is harder to test. Both at once was also suggested.
+- **What follows from it:** The aquarium's projector window and corner correction can be copied over for projection. The TouchDesigner idea stays in the ideas list, not planned.
+
+## 6. British traditions first
+
+- **Date:** 17 November 2026
+- **Status:** Decided
+- **What prompted it:** Choosing which traditions to start with. Eleanor chose British ones, noting that the patterns need researching.
+- **Decision:** The first traditions in the catalogue are British. Which one comes first waits on research into where real patterns are published and what may be reproduced.
+- **Alternatives considered:** Starting with a mix from around the world, or with one with a personal link such as Dumbara. Lost for now: British traditions are close to home, well documented and a coherent first set.
+- **What follows from it:** A research plan, [research/british-traditions.md](research/british-traditions.md). Traditions from elsewhere follow once the catalogue format has been proven.

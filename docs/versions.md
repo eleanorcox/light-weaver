@@ -31,3 +31,12 @@ Template:
 - **Screencast:** `Light Weaver v1 - first light.webm`, also [in the repository](screencasts/v1-first-light.webm); and `Light Weaver v1 - made-up tartan 780891.webm`, also [in the repository](screencasts/v1-tartan-780891.webm), with [a still](screencasts/v1-tartan-780891.png). Eleanor's favourite so far: `?scene=tartan&seed=780891`, sett B6 G6 B6 R2 Y4.
 - **What it could do:** Weave cloth in glowing threads on black, row by row, with a point of light carrying each weft across and the unwoven warp glowing below. Five scenes: made-up tartans from a seed, plain weave, 2/2 twill, herringbone and houndstooth, each with a caption. Opens with the screen already woven.
 - **How it felt compared with the last version:** The first version. Built in an evening from the weave core up; the patterns come entirely from weaving rules, and houndstooth appearing from nothing but a twill and a colour order was the moment it felt like it worked. The look (glowing dashes) is a first pass.
+
+## v2: one cloth after another
+
+- **Date:** 17 November 2026
+- **Tag:** `v2`
+- **Screencast:** `Light Weaver v2 - one cloth after another.webm`, also [in the repository](screencasts/v2-one-cloth-after-another.webm)
+- **What it could do:** Weave every design in turn, one cloth after another with bare loom between, the caption and the unwoven warp changing with each. Eighteen designs, now in a [gallery](designs.md): plain, basket, gingham, 2/2 twill, denim, broken twill, point and diamond twill, herringbone, satin, houndstooth, Glen check, Prince of Wales check, gun club check, windowpane, tattersall, made-up tartans and kasuri, the first tradition from outside Britain. Tartans typed into the address (`?sett=`), colours changed from it (`?colours=`), and a chosen list played with `?play=`.
+- **How it felt compared with the last version:** It became a piece rather than a demo: left alone, it moves through cloths by itself, like a loom being re-dressed between pieces. Kasuri brought the first thread whose colour changes along its length, and its soft, slightly wonky edges look hand-made in a way the drafts do not.
+

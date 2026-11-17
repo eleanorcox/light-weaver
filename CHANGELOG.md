@@ -6,6 +6,10 @@ Versions are numbered v1, v2 and so on, each with a git tag of the same name. Ne
 
 ## Unreleased
 
+Nothing yet.
+
+## v2: one cloth after another (17 November 2026)
+
 ### Added
 
 - With no address, Light Weaver now weaves every design in turn, one cloth after another, with a stretch of bare loom between; the caption follows the cloth being woven. `?play=glen,satin,tartan` plays a chosen list, and `?picks=` sets how long each lasts.

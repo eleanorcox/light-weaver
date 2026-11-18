@@ -56,18 +56,21 @@ describe('programme', () => {
     for (let i = 1; i < changes.length; i++) expect(Math.abs(changes[i]! - changes[i - 1]!)).toBeLessThanOrEqual(3);
   });
 
-  it('draws a different line at each change, the same every time round', () => {
+  it('draws a new line at every change, even when the same piece comes round again', () => {
     const line = (j0: number): number[] => columns.map((i) => Array.from({ length: 40 }, (_, k) => p.crossing(i, j0 + k).index).indexOf(p.row(j0 + 20).index));
     expect(line(80)).not.toEqual(line(140));
-    expect(line(80 + 160)).toEqual(line(80));
-    expect(programme(pieces, 20).crossing(7, 95)).toEqual(p.crossing(7, 95));
+    expect(line(80 + 160)).not.toEqual(line(80));
+    expect(line(80 + 320)).not.toEqual(line(80 + 160));
+  });
+
+  it('draws the same lines for the same programme, so it can be shown again', () => {
+    for (const j of [95, 95 + 160, 95 + 1600]) expect(programme(pieces, 20).crossing(7, j)).toEqual(p.crossing(7, j));
   });
 
   it('hands over from the last piece back to the first', () => {
     const indices = new Set(columns.map((i) => p.crossing(i, 160).index));
     expect(indices).toEqual(new Set([0, 1]));
     expect(p.row(160 * 3 + 5)).toEqual({ index: 0, pick: 5, piece: pieces[0] });
-    expect(p.crossing(0, -5).index).toBe(p.crossing(0, 155).index);
   });
 
   it('keeps the blend inside short pieces', () => {

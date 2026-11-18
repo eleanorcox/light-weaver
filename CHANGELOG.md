@@ -6,6 +6,10 @@ Versions are numbered v1, v2 and so on, each with a git tag of the same name. Ne
 
 ## Unreleased
 
+### Changed
+
+- Every change from one cloth to the next follows a new curve, even when the same design comes round again.
+
 ### Added
 
 - A settings panel: move the mouse and a Settings button appears in the bottom right for a few seconds. Choose the designs to play, rows per design, speed, blend, thread size, the tartan seed, your own setts and captions, then press Weave. The choices go into the address, so they can be shared as a link.

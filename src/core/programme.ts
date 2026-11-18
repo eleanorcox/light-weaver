@@ -32,7 +32,8 @@ function hash(a: number, b: number): number {
 }
 
 // How far from -1 to 1 thread i changes early or late at change k: a gentle wave across the
-// cloth, different at every change.
+// cloth, different at every change. k counts every change since the start, not which piece
+// begins, so a piece coming round again meets the last one along a new line.
 function wave(i: number, k: number): number {
   const knot = Math.floor(i / SPAN);
   const t = (1 - Math.cos(((i - knot * SPAN) / SPAN) * Math.PI)) / 2;
@@ -66,8 +67,11 @@ export function programme(pieces: readonly Piece[], blend: number): Programme {
 
   const place = (index: number, start: number, j: number): Place => ({ index, pick: j - start, piece: pieces[index]! });
 
-  // The pick at which thread i changes to the piece starting at `start`.
-  const change = (i: number, index: number, start: number): number => start + Math.round(half * wave(i, index));
+  // The pick at which thread i changes to the piece `index` starting at `start`.
+  const change = (i: number, index: number, start: number): number => {
+    const round = Math.floor(start / total);
+    return start + Math.round(half * wave(i, round * pieces.length + index));
+  };
 
   return {
     row(j) {

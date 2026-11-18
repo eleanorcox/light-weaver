@@ -39,9 +39,10 @@ Template:
 | [8](#8-made-up-tartans-before-registered-ones) | Made-up tartans before registered ones | 17 Nov 2026 | Built |
 | [9](#9-one-cloth-after-another) | One cloth after another | 17 Nov 2026 | Replaced by 11 |
 | [10](#10-kasuri-first-kente-and-dumbara-wait) | Kasuri first; kente and Dumbara wait | 17 Nov 2026 | Built |
-| [11](#11-one-cloth-turns-into-the-next) | One cloth turns into the next | 18 Nov 2026 | Built |
+| [11](#11-one-cloth-turns-into-the-next) | One cloth turns into the next | 18 Nov 2026 | Replaced by 14 |
 | [12](#12-block-weaves-damask-and-double-cloth-face-only) | Block weaves: damask and double cloth, face only | 18 Nov 2026 | Built |
 | [13](#13-settings-in-the-page-written-into-the-address) | Settings in the page, written into the address | 18 Nov 2026 | Built |
+| [14](#14-a-new-curve-at-every-change) | A new curve at every change | 18 Nov 2026 | Built |
 
 ## 1. Working name: Light Weaver
 
@@ -136,7 +137,7 @@ Template:
 ## 11. One cloth turns into the next
 
 - **Date:** 18 November 2026
-- **Status:** Built
+- **Status:** Replaced by [14](#14-a-new-curve-at-every-change)
 - **What prompted it:** Eleanor asked for the change from one weave to another to be seamless, and for a way to weave tartans one into another.
 - **Decision:** No bare loom between pieces. Each warp thread changes to the next piece at its own pick, within a band (32 picks by default, `?blend=`) around where the new piece starts, so the two cloths meet along a soft, wavy line that differs at every change and is the same each time round. The unwoven warp changes thread by thread with it. Several setts can be typed (`?sett=...&sett=...`) and are woven one into the next.
 - **Alternatives considered:** A cross-fade of colours, which would blend two cloths into a third that neither tradition has; a straight line, which is what a real loom gives but reads as a cut (still available as `?blend=0`); keeping one warp and changing only the weft, which most pairs of designs cannot do because their warps differ.
@@ -159,3 +160,12 @@ Template:
 - **Decision:** A settings panel, opened from a small button that appears only while the mouse moves or a key is pressed and fades after three seconds. It covers the designs to play, rows per design, speed, blend, thread size, the tartan seed, typed setts and captions. Pressing Weave writes the choices into the address and starts again, so the piece itself still has no controls while it plays, and every choice can be shared as a link.
 - **Alternatives considered:** Changing settings live as the cloth weaves, which would feel more immediate but makes the same address no longer give the same cloth; keyboard shortcuts only, which are quicker but hidden; leaving it to the address, as decision 4 had it.
 - **What follows from it:** Replaces "no controls" in [decision 4](#4-a-passive-visual) with "no controls while it plays"; left alone, it is as passive as before. The address is read in one place, `src/address.ts`.
+
+## 14. A new curve at every change
+
+- **Date:** 18 November 2026
+- **Status:** Built
+- **What prompted it:** Watching short pieces, Eleanor saw that each design always met the one before along the same curve, so the bands repeated their shapes every time round.
+- **Decision:** The curve is chosen by the change's place in the whole run (the first change, the second, and so on), not by which design begins. Every change has its own curve; the same address still gives the same sequence of curves.
+- **Alternatives considered:** A new random curve from the clock each time, which would never repeat but could not be shown again.
+- **What follows from it:** Replaces "the same each time round" in [decision 11](#11-one-cloth-turns-into-the-next); the rest of 11 stands.

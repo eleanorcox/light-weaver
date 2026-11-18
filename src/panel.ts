@@ -331,7 +331,7 @@ export function startPanel(settings: Settings, options: PanelOptions = {}): Pane
     drawColours();
     const changed = writeAddress(chosen()) !== writeAddress(settings);
     weave.hidden = live;
-    modeLabel.textContent = live ? 'Change as I weave' : 'Change when I press Weave';
+    modeLabel.textContent = live ? 'Changes weave in straight away' : 'Changes wait for the Weave button';
     weave.textContent = changed ? 'Weave with these changes' : 'Weaving these settings';
     weave.classList.toggle('changed', changed);
     if (live && changed) {

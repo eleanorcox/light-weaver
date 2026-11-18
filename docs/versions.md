@@ -8,7 +8,7 @@ The [changelog](../CHANGELOG.md) lists what changed in each version. This log sa
 
 - **A version is a point worth showing**, usually the end of a roadmap stage.
 - **Each version has a git tag** (`v1`, `v2`, ...) on the commit it was recorded from.
-- **Each version has a screencast**, recorded by Eleanor and kept in `~/Videos/Screencasts/`, listed here by file name. Small ones are also kept in [screencasts/](screencasts/), so the history can be watched from the repository.
+- **Each version has a screencast**, recorded by Eleanor and kept in `~/Videos/Screencasts/`, listed here by file name, as `Light Weaver vN - what it shows.webm`. Each is also a GIF on the [screencasts page](screencasts.md), so the history can be watched from the repository.
 - **Entries are not rewritten** once the next version exists, apart from fixing mistakes.
 - Newest at the bottom.
 
@@ -44,7 +44,7 @@ Template:
 
 - **Date:** 18 November 2026
 - **Tag:** `v3`
-- **Screencast:** `Screencast from 18-11-26 13:45:33.webm`, also [in the repository](screencasts/v3-one-cloth-into-the-next.webm). Recorded with `?picks=30`, so a new cloth arrives every few seconds.
+- **Screencast:** `Light Weaver v3 - one cloth into the next.webm` (recorded as `Screencast from 18-11-26 13:45:33.webm`), also [in the repository](screencasts/v3-one-cloth-into-the-next.webm). Recorded with `?picks=30`, so a new cloth arrives every few seconds.
 - **What it could do:** Turn one cloth into the next with no bare loom: each warp thread changes at its own row, so the cloths meet along a soft wavy line, different at every change (`?blend=` sets how gradual; 0 for a straight cut). Several typed tartans woven one into another. Twenty-two designs, the four new ones from a second round of research: monk's belt, bird's eye, linen damask in the tradition of Lisburn, and Welsh double cloth in the tradition of the carthen.
 - **How it felt compared with the last version:** The pauses of bare loom are gone, so it reads as one continuous length of cloth that keeps changing, rather than a series of samples. Short pieces make the hand-overs the main event. Damask brought the first pattern made by light alone, with warp and weft almost the same colour.
 
@@ -52,10 +52,10 @@ Template:
 
 - **Date:** 18 November 2026
 - **Tag:** `v4`
-- **Screencast:** three, kept in `~/Videos/Screencasts/` only, as each is 50 MB or more:
-  - `Screencast from 18-11-26 15:38:13.webm`: the settings panel, changing the weaving settings and the designs.
-  - `Screencast from 18-11-26 15:40:23.webm`: 100 made-up tartans, changing their colours as they weave.
-  - `Screencast from 18-11-26 15:47:54.webm`: changing the order of the designs.
+- **Screencast:** three, kept in `~/Videos/Screencasts/` only, as each is 50 MB or more, and shown as GIFs on the [screencasts page](screencasts.md#v4-settings-to-play-with):
+  - `Light Weaver v4 - settings, weaving and designs.webm`: the settings panel, changing the weaving settings and the designs.
+  - `Light Weaver v4 - 100 tartans, changing colours.webm`: 100 made-up tartans, changing their colours as they weave.
+  - `Light Weaver v4 - changing the order.webm`: changing the order of the designs.
 
   Stills of three made-up tartans: [seed 118619](screencasts/v4-tartan-118619.png), [seed 645811](screencasts/v4-tartan-645811.png) and [seed 199162](screencasts/v4-tartan-199162.png).
 - **What it could do:** Everything can be chosen from a settings panel in the page as well as from the address: which designs play and in what order (dragged, or moved with arrows), up to 100 made-up tartans, rows per design, speed, blend, thread size, captions, the tartan seed, typed setts, and each design's colours, picked inside the panel. A switch chooses whether changes wait for the Weave button, which starts again from the address, or weave in straight away without starting again, for people who come to play with it. Every change from one cloth to the next now follows its own curve. The panel hides when nobody is using it.

@@ -261,11 +261,11 @@ export function startPanel(settings: Settings, options: PanelOptions = {}): Pane
   const seed = el('input', { type: 'number', min: '0', step: '1', value: settings.seed === undefined ? '' : String(settings.seed), placeholder: 'new each time' });
   const setts = el('textarea', { rows: 2, value: settings.setts.join('\n'), placeholder: 'B6 G6 B6 R2 Y4', spellcheck: false });
 
-  // How changes are taken up: as they are made, or when Weave is pressed. The line beneath the
-  // switch says which.
+  // How changes are taken up: as they are made, or when Weave is pressed. The switch's label
+  // says which it is doing.
   const toggle = el('input', { type: 'checkbox', role: 'switch', checked: live, className: 'switch' });
-  const modeNote = el('p', { className: 'mode-note', ariaLive: 'polite' });
-  const modeChoice = el('div', { className: 'mode' }, el('label', {}, el('span', {}, 'Change as I weave'), toggle), modeNote);
+  const modeLabel = el('span', { ariaLive: 'polite' });
+  const modeChoice = el('div', { className: 'mode' }, el('label', {}, modeLabel, toggle));
   const weave = el('button', { type: 'submit', className: 'weave' });
   const reset = el('button', { type: 'button', textContent: 'Reset' });
   const close = el('button', { type: 'button', className: 'close', textContent: '×', ariaLabel: 'Close the settings' });
@@ -331,7 +331,7 @@ export function startPanel(settings: Settings, options: PanelOptions = {}): Pane
     drawColours();
     const changed = writeAddress(chosen()) !== writeAddress(settings);
     weave.hidden = live;
-    modeNote.textContent = live ? 'Changes weave in as you make them, without starting again.' : 'Changes wait until you press Weave, then it starts again.';
+    modeLabel.textContent = live ? 'Change as I weave' : 'Change when I press Weave';
     weave.textContent = changed ? 'Weave with these changes' : 'Weaving these settings';
     weave.classList.toggle('changed', changed);
     if (live && changed) {

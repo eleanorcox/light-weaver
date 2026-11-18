@@ -79,18 +79,17 @@ describe('changing settings as they are made', () => {
 describe('the switch for changing as you weave', () => {
   beforeEach(() => document.body.replaceChildren());
 
-  it('is a switch, off by default, saying changes wait for Weave', () => {
+  it('is a switch, off by default, whose label says changes wait for Weave', () => {
     startPanel(readSettings('?scene=glen'));
     const toggle = document.querySelector<HTMLInputElement>('.mode input[role="switch"]')!;
     expect(toggle.checked).toBe(false);
-    expect(document.querySelector('.mode')!.textContent).toMatch(/Change as I weave/);
-    expect(document.querySelector('.mode-note')!.textContent).toMatch(/wait until you press Weave/);
+    expect(document.querySelector('.mode')!.textContent).toBe('Change when I press Weave');
   });
 
-  it('says what it is doing once switched on', () => {
+  it('changes its label to say what it is doing once switched on', () => {
     startPanel(readSettings('?scene=glen'));
     click(document.querySelector<HTMLInputElement>('.mode input[role="switch"]')!);
-    expect(document.querySelector('.mode-note')!.textContent).toMatch(/weave in as you make them/);
+    expect(document.querySelector('.mode')!.textContent).toBe('Change as I weave');
   });
 
   it('starts switched on when the address says so', () => {

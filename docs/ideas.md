@@ -88,6 +88,9 @@ All need research first: many rug traditions carry motifs that belong to particu
 Made-up tartans worth keeping, to become named scenes or a playlist:
 
 - `?scene=tartan&seed=780891`: sett B6 G6 B6 R2 Y4. Blue ground with green, and red and yellow accents.
+- `?scene=tartan&seed=118619`: sett Y8 B8 W2 Y30. Yellow ground with blue checks and a fine white line. Screenshotted for v4.
+- `?scene=tartan&seed=645811`: sett W2 G22 B28 Y12 G6 B24 Y30. Green and blue with yellow bands. Screenshotted for v4.
+- `?scene=tartan&seed=199162`: sett R2 Y38 W28 R34 Y6 W6. Yellow and white with wide red bands. Screenshotted for v4.
 
 ## A slowly changing pattern
 

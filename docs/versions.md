@@ -47,3 +47,17 @@ Template:
 - **Screencast:** `Screencast from 18-11-26 13:45:33.webm`, also [in the repository](screencasts/v3-one-cloth-into-the-next.webm). Recorded with `?picks=30`, so a new cloth arrives every few seconds.
 - **What it could do:** Turn one cloth into the next with no bare loom: each warp thread changes at its own row, so the cloths meet along a soft wavy line, different at every change (`?blend=` sets how gradual; 0 for a straight cut). Several typed tartans woven one into another. Twenty-two designs, the four new ones from a second round of research: monk's belt, bird's eye, linen damask in the tradition of Lisburn, and Welsh double cloth in the tradition of the carthen.
 - **How it felt compared with the last version:** The pauses of bare loom are gone, so it reads as one continuous length of cloth that keeps changing, rather than a series of samples. Short pieces make the hand-overs the main event. Damask brought the first pattern made by light alone, with warp and weft almost the same colour.
+
+## v4: settings to play with
+
+- **Date:** 18 November 2026
+- **Tag:** `v4`
+- **Screencast:** three, kept in `~/Videos/Screencasts/` only, as each is 50 MB or more:
+  - `Screencast from 18-11-26 15:38:13.webm`: the settings panel, changing the weaving settings and the designs.
+  - `Screencast from 18-11-26 15:40:23.webm`: 100 made-up tartans, changing their colours as they weave.
+  - `Screencast from 18-11-26 15:47:54.webm`: changing the order of the designs.
+
+  Stills of three made-up tartans: [seed 118619](screencasts/v4-tartan-118619.png), [seed 645811](screencasts/v4-tartan-645811.png) and [seed 199162](screencasts/v4-tartan-199162.png).
+- **What it could do:** Everything can be chosen from a settings panel in the page as well as from the address: which designs play and in what order (dragged, or moved with arrows), up to 100 made-up tartans, rows per design, speed, blend, thread size, captions, the tartan seed, typed setts, and each design's colours, picked inside the panel. A switch chooses whether changes wait for the Weave button, which starts again from the address, or weave in straight away without starting again, for people who come to play with it. Every change from one cloth to the next now follows its own curve. The panel hides when nobody is using it.
+- **How it felt compared with the last version:** It stopped being something only an address could steer and became something to play with. With changes weaving in straight away, a new colour or design rises into the cloth along a wave while the pattern carries on, so playing with it never breaks the weaving. A hundred tartans in a row makes the piece feel endless.
+

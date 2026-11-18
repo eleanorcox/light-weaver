@@ -6,6 +6,10 @@ Versions are numbered v1, v2 and so on, each with a git tag of the same name. Ne
 
 ## Unreleased
 
+Nothing yet.
+
+## v4: settings to play with (18 November 2026)
+
 ### Changed
 
 - Every change from one cloth to the next follows a new curve, even when the same design comes round again.

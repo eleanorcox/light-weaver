@@ -160,3 +160,42 @@ describe('changing colours as they are made', () => {
     expect(seen.map((s) => s.designColours.glen?.L)).toEqual(['#ff0000', '#00ff00', '#0000ff']);
   });
 });
+
+describe('closing when the mouse leaves', () => {
+  const panel = (): HTMLElement => document.querySelector('.panel')!;
+  const leave = (pointerType: string): void => {
+    panel().dispatchEvent(new PointerEvent('pointerleave', { pointerType }));
+  };
+
+  beforeEach(() => {
+    document.body.replaceChildren();
+    vi.useFakeTimers();
+    startPanel(readSettings('?scene=glen'), { open: true });
+  });
+
+  it('closes the settings a moment after the mouse leaves them', () => {
+    leave('mouse');
+    expect(panel().hidden).toBe(false);
+    vi.advanceTimersByTime(1000);
+    expect(panel().hidden).toBe(true);
+  });
+
+  it('stays open if the mouse comes back in time', () => {
+    leave('mouse');
+    panel().dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse' }));
+    vi.advanceTimersByTime(1000);
+    expect(panel().hidden).toBe(false);
+  });
+
+  it('stays open while a slider is being dragged outside it, with the button held', () => {
+    panel().dispatchEvent(new PointerEvent('pointerleave', { pointerType: 'mouse', buttons: 1 }));
+    vi.advanceTimersByTime(1000);
+    expect(panel().hidden).toBe(false);
+  });
+
+  it('stays open when a finger lifts off a touch screen, which also counts as leaving', () => {
+    leave('touch');
+    vi.advanceTimersByTime(1000);
+    expect(panel().hidden).toBe(false);
+  });
+});

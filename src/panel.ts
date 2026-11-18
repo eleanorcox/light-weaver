@@ -8,6 +8,10 @@ import { DESIGN_LABELS, DESIGN_PALETTES, SCENE_NAMES } from './scenes';
 // when nobody is touching it.
 const IDLE_MS = 3000;
 
+// How long after the mouse leaves the settings they close, so brushing past the edge does not
+// shut them.
+const LEAVE_MS = 600;
+
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, props: Partial<HTMLElementTagNameMap[K]> = {}, ...children: (Node | string)[]): HTMLElementTagNameMap[K] {
   const node = Object.assign(document.createElement(tag), props);
   node.append(...children);
@@ -378,7 +382,8 @@ export function startPanel(settings: Settings, options: PanelOptions = {}): Pane
     panel.hidden = !show;
     button.hidden = show;
     if (show) close.focus();
-    else button.focus({ preventScroll: true });
+    // Focus goes back to the button only for keyboard users, so the mouse leaving does not wake it.
+    else if (panel.contains(document.activeElement)) button.focus({ preventScroll: true });
   };
   const escape = (event: KeyboardEvent): void => {
     if (event.key === 'Escape' && !panel.hidden) open(false);
@@ -388,11 +393,24 @@ export function startPanel(settings: Settings, options: PanelOptions = {}): Pane
   button.addEventListener('focus', wake);
   button.addEventListener('click', () => open(true));
   close.addEventListener('click', () => open(false));
+  // Close when the mouse leaves the panel. Only a mouse: a finger lifting off a touch screen
+  // also counts as leaving.
+  let leaving = 0;
+  panel.addEventListener('pointerleave', (event) => {
+    // Not while a button is held, as when dragging a slider past the edge.
+    if (event.pointerType !== 'mouse' || event.buttons !== 0) return;
+    window.clearTimeout(leaving);
+    leaving = window.setTimeout(() => {
+      if (!panel.hidden) open(false);
+    }, LEAVE_MS);
+  });
+  panel.addEventListener('pointerenter', () => window.clearTimeout(leaving));
   if (options.open) open(true);
 
   function destroy(): void {
     window.clearTimeout(settle);
     window.clearTimeout(idle);
+    window.clearTimeout(leaving);
     for (const kind of ['pointermove', 'pointerdown', 'keydown']) window.removeEventListener(kind, wake);
     window.removeEventListener('keydown', escape);
     button.remove();

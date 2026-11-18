@@ -43,6 +43,7 @@ Template:
 | [12](#12-block-weaves-damask-and-double-cloth-face-only) | Block weaves: damask and double cloth, face only | 18 Nov 2026 | Built |
 | [13](#13-settings-in-the-page-written-into-the-address) | Settings in the page, written into the address | 18 Nov 2026 | Built |
 | [14](#14-a-new-curve-at-every-change) | A new curve at every change | 18 Nov 2026 | Built |
+| [15](#15-changing-as-you-go-for-people-who-come-to-play) | Changing as you go, for people who come to play | 18 Nov 2026 | Built |
 
 ## 1. Working name: Light Weaver
 
@@ -169,3 +170,12 @@ Template:
 - **Decision:** The curve is chosen by the change's place in the whole run (the first change, the second, and so on), not by which design begins. Every change has its own curve; the same address still gives the same sequence of curves.
 - **Alternatives considered:** A new random curve from the clock each time, which would never repeat but could not be shown again.
 - **What follows from it:** Replaces "the same each time round" in [decision 11](#11-one-cloth-turns-into-the-next); the rest of 11 stands.
+
+## 15. Changing as you go, for people who come to play
+
+- **Date:** 18 November 2026
+- **Status:** Built
+- **What prompted it:** Eleanor wanted a mode where people could come up and play with the settings and the cloth would carry on without restarting, while keeping the mode that waits for Weave. Separately, the browser's own colour picker opened off the edge of the screen from the bottom-right panel.
+- **Decision:** The panel offers two ways to take up changes: "Change when I press Weave" (the usual one, which restarts from the address, as in [decision 13](#13-settings-in-the-page-written-into-the-address)) and "Change as I go" (`?live=on`). Changing as you go weaves each change in from the next row: speed, thread size and captions at once; anything that changes the cloth hands over from the old cloth to the new along a wave, as between pieces, carrying on in the same design at the same row if it is still in the list. The address is kept up to date without reloading. Colours are picked inside the panel, from ready-made colours, hue, saturation and lightness, or a hex value.
+- **Alternatives considered:** Only one mode, live, which would lose an address that always gives the same cloth; restarting quietly after each change, which is not continuous; keeping the browser's picker, whose position a page cannot control.
+- **What follows from it:** In the live mode the address says what is weaving now, but the cloth already woven depends on the order changes were made, so it cannot be reproduced from the address. Decision 13 still stands for the usual mode.

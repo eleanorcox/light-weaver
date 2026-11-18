@@ -14,9 +14,10 @@ export interface Settings {
   setts: string[]; // typed tartans, which replace the designs when given
   colours: string; // colours for every design, as typed in ?colours=
   designColours: Record<string, Palette>; // each design's own changed colours, ?colours.<design>=
+  live: boolean; // settings change the cloth as they are made, rather than when Weave is pressed
 }
 
-export const DEFAULTS: Settings = { play: SCENE_NAMES, picks: 200, speed: 8, blend: 32, cell: 8, caption: true, setts: [], colours: '', designColours: {} };
+export const DEFAULTS: Settings = { play: SCENE_NAMES, picks: 200, speed: 8, blend: 32, cell: 8, caption: true, setts: [], colours: '', designColours: {}, live: false };
 
 function number(params: URLSearchParams, name: string, fallback: number, least: number): number {
   const n = Number(params.get(name));
@@ -39,6 +40,7 @@ export function readSettings(search: string): Settings {
     ...(Number.isFinite(seed) ? { seed } : {}),
     caption: params.get('caption') !== 'off',
     setts: params.getAll('sett'),
+    live: params.get('live') === 'on',
     colours: params.get('colours') ?? '',
     designColours: Object.fromEntries(
       SCENE_NAMES.flatMap((name) => {
@@ -66,6 +68,7 @@ export function writeAddress(s: Settings): string {
   if (s.cell !== DEFAULTS.cell) parts.push(`cell=${s.cell}`);
   if (s.seed !== undefined) parts.push(`seed=${s.seed}`);
   if (!s.caption) parts.push('caption=off');
+  if (s.live) parts.push('live=on');
   if (s.colours) parts.push(`colours=${s.colours}`);
   for (const [name, colours] of Object.entries(s.designColours)) {
     if (Object.keys(colours).length > 0) parts.push(`colours.${name}=${formatColours(colours)}`);

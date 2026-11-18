@@ -46,6 +46,10 @@ describe('playing one cloth after another', () => {
     expect(sceneFromAddress('?play=glen&picks=50').pieces[0]!.picks).toBe(50);
   });
 
+  it('names each piece after its design, so a change of settings can carry on in the same one', () => {
+    expect(sceneFromAddress('?play=glen,tartan&seed=3').pieces.map((p) => p.name)).toEqual(['glen', 'tartan']);
+  });
+
   it('gives each made-up tartan in a programme its own seed', () => {
     const scene = sceneFromAddress('?play=tartan,tartan&seed=3');
     expect(scene.pieces[0]!.caption).not.toBe(scene.pieces[1]!.caption);

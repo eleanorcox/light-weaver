@@ -1,6 +1,15 @@
 import type { Cloth } from '../core/cloth';
 import type { Place, Programme } from '../core/programme';
 
+// A loom that is weaving, which can be changed as it goes.
+export interface Loom {
+  pick(): number; // the pick being woven now
+  setProgramme(next: Programme): void; // picks already woven are drawn from it only on resize
+  setSpeed(picksPerSecond: number): void;
+  setCell(cell: number): void;
+  stop(): void;
+}
+
 export interface LoomOptions {
   cell: number; // CSS pixels per thread
   picksPerSecond: number;
@@ -39,7 +48,7 @@ function threadStyle(ctx: CanvasRenderingContext2D, c: number): void {
 // Weaves the cloth for ever: each pick (one pass of the weft) is carried across by a point of
 // light, then joins the woven cloth above, which moves up a row. Woven rows are drawn once
 // into an offscreen canvas; the frame copies it and adds the row being woven.
-export function startLoom(canvas: HTMLCanvasElement, programme: Programme, options: LoomOptions): () => void {
+export function startLoom(canvas: HTMLCanvasElement, programme: Programme, options: LoomOptions): Loom {
   const ctx = canvas.getContext('2d')!;
   const woven = document.createElement('canvas');
   const wovenCtx = woven.getContext('2d')!;
@@ -53,7 +62,8 @@ export function startLoom(canvas: HTMLCanvasElement, programme: Programme, optio
   let rowsAbove = 0;
   let fellY = 0;
   let committed = 0; // picks drawn into the woven canvas so far
-  let start = performance.now();
+  let progress = 0; // picks woven, with the fraction of the one being woven
+  let last: number | null = null; // the time of the last frame
   let frame = 0;
 
   // Draws pick j of the programme, each crossing from the piece it belongs to, so where one
@@ -68,7 +78,7 @@ export function startLoom(canvas: HTMLCanvasElement, programme: Programme, optio
   }
 
   let warpPick = 0; // the pick at the fell when the warp was drawn
-  let lastIndex = -1;
+  let lastPiece: unknown = null;
 
   // Rebuilds everything at the current size. The cloth is the same for the same pick numbers,
   // so the visible woven rows can simply be drawn again.
@@ -90,7 +100,7 @@ export function startLoom(canvas: HTMLCanvasElement, programme: Programme, optio
     // Never show unwoven rows at the top: if the window grew, weave on far enough to fill it.
     const wanted = Math.max(options.startPick ?? 0, rowsAbove);
     if (committed < wanted) {
-      start -= ((wanted - committed) / options.picksPerSecond) * 1000;
+      progress = Math.max(progress, wanted);
       committed = wanted;
     }
 
@@ -139,13 +149,16 @@ export function startLoom(canvas: HTMLCanvasElement, programme: Programme, optio
   }
 
   function draw(now: number): void {
-    const progress = ((now - start) / 1000) * options.picksPerSecond;
+    // Weaves on by the time since the last frame, so the speed can change without a jump; a
+    // long pause (a hidden tab) counts as at most a second.
+    if (last !== null) progress += (Math.min(now - last, 1000) / 1000) * options.picksPerSecond;
+    last = now;
     const pick = Math.floor(progress);
     while (committed < pick) commit(committed++);
 
     const place = programme.row(pick);
-    if (place.index !== lastIndex) {
-      lastIndex = place.index;
+    if (place.piece !== lastPiece) {
+      lastPiece = place.piece;
       options.onPiece?.(place);
     }
     // Redrawn on each new pick, as threads change piece one by one during a hand-over.
@@ -188,8 +201,23 @@ export function startLoom(canvas: HTMLCanvasElement, programme: Programme, optio
   layout();
   window.addEventListener('resize', layout);
   frame = requestAnimationFrame(draw);
-  return () => {
-    cancelAnimationFrame(frame);
-    window.removeEventListener('resize', layout);
+  return {
+    pick: () => Math.floor(progress),
+    setProgramme(next) {
+      programme = next;
+      drawWarp();
+    },
+    setSpeed(picksPerSecond) {
+      options.picksPerSecond = picksPerSecond;
+    },
+    setCell(cell) {
+      if (cell === options.cell) return;
+      options.cell = cell;
+      layout();
+    },
+    stop() {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('resize', layout);
+    },
   };
 }

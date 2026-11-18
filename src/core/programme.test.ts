@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Cloth } from './cloth';
-import { programme, type Piece } from './programme';
+import { continueWith, programme, type Piece } from './programme';
 
 const cloth: Cloth = { warpUp: () => true, warpColour: () => '#fff', weftColour: () => '#000' };
 const piece = (caption: string, picks: number): Piece => ({ caption, picks, cloth });
@@ -95,5 +95,52 @@ describe('programme', () => {
 
   it('refuses an empty programme', () => {
     expect(() => programme([], 0)).toThrow();
+  });
+});
+
+describe('where each piece starts', () => {
+  it('gives the first pick of each piece in the first time round', () => {
+    const p = programme([piece('a', 100), piece('b', 60), piece('c', 10)], 20);
+    expect([0, 1, 2].map((k) => p.start(k))).toEqual([0, 100, 160]);
+  });
+});
+
+describe('changing to a new programme part-way through', () => {
+  const old = programme([piece('a', 100), piece('b', 100)], 20);
+  const next = programme([piece('c', 50), piece('d', 50)], 20);
+  const columns = Array.from({ length: 300 }, (_, i) => i);
+  // From pick 130 of the old programme, carry on from pick 20 of the new one.
+  const both = continueWith(old, next, { at: 130, from: 20, blend: 24 });
+
+  it('leaves everything before the change as it was, so woven rows stay the same', () => {
+    for (let j = 0; j < 130; j++) {
+      expect(both.row(j)).toEqual(old.row(j));
+      for (const i of [0, 77, 299]) expect(both.crossing(i, j)).toEqual(old.crossing(i, j));
+    }
+  });
+
+  it('weaves the new programme after the change, carrying on from where it was asked to', () => {
+    expect(both.row(130)).toEqual(next.row(20));
+    for (let j = 130 + 24; j < 300; j++) for (const i of [0, 77, 299]) expect(both.crossing(i, j)).toEqual(next.crossing(i, j - 110));
+  });
+
+  it('changes each warp thread over once, within the blend after the change, along an uneven line', () => {
+    const changes = columns.map((i) => {
+      const fromNext = Array.from({ length: 40 }, (_, k) => both.crossing(i, 125 + k).piece !== old.crossing(i, 125 + k).piece);
+      const first = fromNext.indexOf(true);
+      expect(fromNext.slice(first).every(Boolean)).toBe(true);
+      return 125 + first;
+    });
+    expect(Math.min(...changes)).toBeGreaterThanOrEqual(130);
+    expect(Math.max(...changes)).toBeLessThanOrEqual(130 + 24);
+    expect(new Set(changes).size).toBeGreaterThan(1);
+  });
+
+  it('changes in a straight line with no blend', () => {
+    const straight = continueWith(old, next, { at: 130, from: 20, blend: 0 });
+    for (const i of columns) {
+      expect(straight.crossing(i, 129)).toEqual(old.crossing(i, 129));
+      expect(straight.crossing(i, 130)).toEqual(next.crossing(i, 20));
+    }
   });
 });

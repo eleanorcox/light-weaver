@@ -14,6 +14,8 @@ Versions are numbered v1, v2 and so on, each with a git tag of the same name. Ne
 
 - A settings panel: move the mouse and a Settings button appears in the bottom right for a few seconds. Choose the designs to play, rows per design, speed, blend, thread size, the tartan seed, your own setts and captions, then press Weave. The choices go into the address, so they can be shared as a link.
 - In the settings: play several made-up tartans (a number beside the tartan), drag designs into a new order (or use the arrows), fold sections away, and see when there are changes waiting for Weave. The design list reads down each column, in gallery order. "Start afresh" is now "Reset".
+- "Change as I go": a second way to use the settings, for people coming up to play with it. Each change weaves in from the next row without starting again, handing over along a wave; the address keeps up (`?live=on`). "Change when I press Weave" is still the usual way.
+- Colours are picked inside the settings panel (ready-made colours, hue, saturation and lightness, or a hex value), so the picker no longer opens off the edge of the screen.
 - Colours in the settings: a swatch for each colour of each design, changed for that design alone. In the address, `?colours.glen=L-ff0000` changes one design's colours; `?colours=` still changes a letter in every design.
 
 ## v3: one cloth into the next (18 November 2026)

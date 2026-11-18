@@ -140,12 +140,13 @@ function design(name: string, s: Settings): Piece {
   const d = DESIGNS[name]!;
   const palette = coloursFor(name, s);
   const cloth = 'make' in d ? d.make(palette) : woven(d.draft(), d.warp, d.weft, palette);
-  return { cloth, caption: s.note + d.caption, picks: s.picks };
+  return { name, cloth, caption: s.note + d.caption, picks: s.picks };
 }
 
 function madeUpTartan(seed: number, s: Settings): Piece {
   const sett = generateSett(seededRandom(seed), Object.keys(LIGHT));
   return {
+    name: 'tartan',
     cloth: tartan({ sett, symmetry: 'symmetric', colours: coloursFor('tartan', s) }),
     caption: `${s.note}A made-up tartan · sett ${sett} · seed ${seed}`,
     picks: s.picks,
@@ -191,7 +192,7 @@ export function sceneFromAddress(search: string, random: () => number = Math.ran
       try {
         const sett = formatSett(parseSett(text));
         const cloth = tartan({ sett, symmetry: 'symmetric', colours: coloursFor('tartan', settings) });
-        pieces.push({ cloth, caption: `Your tartan · sett ${sett}`, picks: settings.picks });
+        pieces.push({ name: `sett ${sett}`, cloth, caption: `Your tartan · sett ${sett}`, picks: settings.picks });
       } catch (error) {
         problems.push(`Could not weave that sett: ${error instanceof Error ? error.message : String(error)}. `);
       }

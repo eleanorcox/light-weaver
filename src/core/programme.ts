@@ -4,6 +4,7 @@ export interface Piece {
   cloth: Cloth;
   caption: string;
   picks: number; // how many picks this piece is woven for before the next
+  name?: string; // the design it is, so a change of settings can carry on in the same one
 }
 
 export interface Place {
@@ -18,6 +19,8 @@ export interface Programme {
   // The piece woven at one crossing. Near a change, some warp threads have already moved on to
   // the next piece and some have not, so the two cloths meet along an uneven line.
   crossing(i: number, j: number): Place;
+  // The first pick of piece `index`, the first time round.
+  start(index: number): number;
 }
 
 // Threads between the points that set the line's height; the line curves smoothly between them.
@@ -74,6 +77,7 @@ export function programme(pieces: readonly Piece[], blend: number): Programme {
   };
 
   return {
+    start: (index) => starts[index]!,
     row(j) {
       const { index, start } = plain(j);
       return place(index, start, j);
@@ -92,5 +96,26 @@ export function programme(pieces: readonly Piece[], blend: number): Programme {
       if (j >= change(i, next, nextStart)) return place(next, nextStart, j);
       return place(index, start, j);
     },
+  };
+}
+
+export interface Splice {
+  at: number; // the first pick of the old programme to change
+  from: number; // the pick of the new programme to carry on from
+  blend: number; // picks after `at` over which the threads change over
+}
+
+// Changes to a new programme part-way through, for settings changed while it weaves. Picks
+// before `at` stay as they were, so the cloth already woven never changes; after it each warp
+// thread changes over at its own pick, along a wave, as between pieces.
+export function continueWith(old: Programme, next: Programme, { at, from, blend }: Splice): Programme {
+  const shift = from - at;
+  const half = Math.max(0, Math.floor(blend / 2));
+  // The wave's number is the pick it happens at, so each change has its own line.
+  const change = (i: number): number => at + half + Math.round(half * wave(i, at));
+  return {
+    start: next.start,
+    row: (j) => (j < at ? old.row(j) : next.row(j + shift)),
+    crossing: (i, j) => (j < change(i) ? old.crossing(i, j) : next.crossing(i, j + shift)),
   };
 }

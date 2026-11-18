@@ -29,6 +29,11 @@ describe('reading settings from the address', () => {
     expect(readSettings('?colours.nonsense=L-ff0000&colours.glen=L-red').designColours).toEqual({});
   });
 
+  it('reads ?live=on as changing settings as they are made, and leaves it off otherwise', () => {
+    expect(readSettings('?live=on').live).toBe(true);
+    expect(readSettings('').live).toBe(false);
+  });
+
   it('falls back to the default for numbers it cannot read', () => {
     expect(readSettings('?picks=lots&speed=-3').picks).toBe(200);
     expect(readSettings('?picks=lots&speed=-3').speed).toBe(8);
@@ -62,6 +67,7 @@ describe('writing settings into the address', () => {
       setts: ['B6G6B6R2Y4', 'K4R24'],
       colours: 'W-ffffff',
       designColours: { damask: { W: '#ff0000' } },
+      live: true,
     };
     expect(readSettings(writeAddress(s))).toEqual(s);
   });

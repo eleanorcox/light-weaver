@@ -41,7 +41,9 @@ export function startPanel(settings: Settings): void {
     const box = el('input', { type: 'checkbox', value: name });
     const row = el('label', { className: 'design' }, box, el('span', {}, label(name)));
     if (name === 'tartan') row.append(many);
-    box.addEventListener('change', () => {
+    // On input, not change: input comes first, and the panel's own redraw on input would
+    // otherwise put the old tick back before the change arrived.
+    box.addEventListener('input', () => {
       play = tick(play, name, box.checked);
       refresh();
     });

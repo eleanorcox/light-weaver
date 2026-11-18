@@ -261,17 +261,11 @@ export function startPanel(settings: Settings, options: PanelOptions = {}): Pane
   const seed = el('input', { type: 'number', min: '0', step: '1', value: settings.seed === undefined ? '' : String(settings.seed), placeholder: 'new each time' });
   const setts = el('textarea', { rows: 2, value: settings.setts.join('\n'), placeholder: 'B6 G6 B6 R2 Y4', spellcheck: false });
 
-  // How changes are taken up: when Weave is pressed, or as they are made.
-  const modes = (['weave', 'live'] as const).map((mode) =>
-    el('input', { type: 'radio', name: 'mode', value: mode, checked: (mode === 'live') === live }),
-  );
-  const modeChoice = el(
-    'div',
-    { className: 'mode', role: 'radiogroup', ariaLabel: 'When changes are woven' },
-    el('label', {}, modes[0]!, 'Change when I press Weave'),
-    el('label', {}, modes[1]!, 'Change as I go'),
-  );
-  const note = el('span', { className: 'note', textContent: 'Changes weave in as you make them' });
+  // How changes are taken up: as they are made, or when Weave is pressed. The line beneath the
+  // switch says which.
+  const toggle = el('input', { type: 'checkbox', role: 'switch', checked: live, className: 'switch' });
+  const modeNote = el('p', { className: 'mode-note', ariaLive: 'polite' });
+  const modeChoice = el('div', { className: 'mode' }, el('label', {}, el('span', {}, 'Change as I weave'), toggle), modeNote);
   const weave = el('button', { type: 'submit', className: 'weave' });
   const reset = el('button', { type: 'button', textContent: 'Reset' });
   const close = el('button', { type: 'button', className: 'close', textContent: '×', ariaLabel: 'Close the settings' });
@@ -288,7 +282,7 @@ export function startPanel(settings: Settings, options: PanelOptions = {}): Pane
       section('Weaving', false, picks.row, speed.row, blend.row, cell.row, el('label', { className: 'row' }, el('span', {}, 'Captions'), caption)),
       section('Tartans', false, el('label', { className: 'row' }, el('span', {}, 'Seed for made-up tartans'), seed), el('label', { className: 'stack' }, el('span', {}, 'Your own setts, one a line, woven instead of the designs'), setts)),
     ),
-    el('footer', {}, note, weave, reset),
+    el('footer', {}, weave, reset),
   );
   document.body.append(button, panel);
 
@@ -337,7 +331,7 @@ export function startPanel(settings: Settings, options: PanelOptions = {}): Pane
     drawColours();
     const changed = writeAddress(chosen()) !== writeAddress(settings);
     weave.hidden = live;
-    note.hidden = !live;
+    modeNote.textContent = live ? 'Changes weave in as you make them, without starting again.' : 'Changes wait until you press Weave, then it starts again.';
     weave.textContent = changed ? 'Weave with these changes' : 'Weaving these settings';
     weave.classList.toggle('changed', changed);
     if (live && changed) {
@@ -345,15 +339,13 @@ export function startPanel(settings: Settings, options: PanelOptions = {}): Pane
       settle = window.setTimeout(apply, SETTLE_MS);
     }
   }
-  for (const radio of modes) {
-    radio.addEventListener('input', () => {
-      live = radio.value === 'live';
-      if (live) return; // refresh, which follows, weaves in anything waiting
-      // Back to waiting for Weave: only the address changes, to say so.
-      settings = { ...settings, live: false };
-      history.replaceState(null, '', location.pathname + writeAddress(settings));
-    });
-  }
+  toggle.addEventListener('input', () => {
+    live = toggle.checked;
+    if (live) return; // refresh, which follows, weaves in anything waiting
+    // Back to waiting for Weave: only the address changes, to say so.
+    settings = { ...settings, live: false };
+    history.replaceState(null, '', location.pathname + writeAddress(settings));
+  });
   panel.addEventListener('input', refresh);
   panel.addEventListener('change', refresh);
   refresh();

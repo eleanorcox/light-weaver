@@ -11,7 +11,7 @@ How we work, git, writing and subagent rules are shared by all the projects and 
 - **Respect is part of the catalogue.** Each tradition's file records what is appropriate to reproduce. Restricted or sacred designs are left out. Traditions are named accurately, not as a country or a vague region, and are not mixed into hybrids unless Eleanor chooses to.
 - **Protected names stay off our cloth.** "Harris Tweed" and its Orb are protected by law and by the Harris Tweed Authority: our output is never called Harris Tweed. Use "tweed in the tradition of Hebridean weaving". Named mill designs (such as Melin Tregwynt's) are not reproduced without permission. See [docs/research/british-traditions.md](docs/research/british-traditions.md).
 - **Every design is in the gallery.** A new design gets a screenshot (`npm run screenshots <name>`) and an entry in [docs/designs.md](docs/designs.md), in the same commit. A test checks both.
-- **Watched, or played with.** Usually settings are chosen before it starts, in the address or the settings panel (Weave writes the address and starts again). "Change as I go" (`?live=on`) weaves changes in without starting again, for people who come to play. The settings button hides itself when nobody is moving the mouse.
+- **Watched, or played with.** Usually settings are chosen before it starts, in the address or the settings panel (Weave writes the address and starts again). The "Change as I weave" switch (`?live=on`) weaves changes in without starting again, for people who come to play. The settings button hides itself when nobody is moving the mouse.
 - **Our own piece, not a copy.** Moyer's Illoominated II is the inspiration and is credited; the plan does not reproduce its look or set-up.
 
 ## Commands

@@ -70,9 +70,32 @@ describe('changing settings as they are made', () => {
     const seen: Settings[] = [];
     startPanel(readSettings('?play=glen'), { onLive: (s) => seen.push(s) });
     click(box('kasuri'));
-    click(document.querySelector<HTMLInputElement>('.mode input[value="live"]')!);
+    click(document.querySelector<HTMLInputElement>('.mode input[role="switch"]')!);
     vi.runAllTimers();
     expect(seen.at(-1)).toMatchObject({ play: ['glen', 'kasuri'], live: true });
+  });
+});
+
+describe('the switch for changing as you weave', () => {
+  beforeEach(() => document.body.replaceChildren());
+
+  it('is a switch, off by default, saying changes wait for Weave', () => {
+    startPanel(readSettings('?scene=glen'));
+    const toggle = document.querySelector<HTMLInputElement>('.mode input[role="switch"]')!;
+    expect(toggle.checked).toBe(false);
+    expect(document.querySelector('.mode')!.textContent).toMatch(/Change as I weave/);
+    expect(document.querySelector('.mode-note')!.textContent).toMatch(/wait until you press Weave/);
+  });
+
+  it('says what it is doing once switched on', () => {
+    startPanel(readSettings('?scene=glen'));
+    click(document.querySelector<HTMLInputElement>('.mode input[role="switch"]')!);
+    expect(document.querySelector('.mode-note')!.textContent).toMatch(/weave in as you make them/);
+  });
+
+  it('starts switched on when the address says so', () => {
+    startPanel(readSettings('?scene=glen&live=on'));
+    expect(document.querySelector<HTMLInputElement>('.mode input[role="switch"]')!.checked).toBe(true);
   });
 });
 

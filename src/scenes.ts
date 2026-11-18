@@ -119,15 +119,26 @@ export const DESIGN_LABELS: Record<string, string> = {
   ...Object.fromEntries(Object.entries(DESIGNS).map(([name, d]) => [name, d.caption.split(':')[0]!.split(', in the tradition')[0]!])),
 };
 
+// Each design's own colours, by letter, as the settings panel shows them. Made-up and typed
+// tartans share the tartan's.
+export const DESIGN_PALETTES: Record<string, Palette> = {
+  tartan: LIGHT,
+  ...Object.fromEntries(Object.entries(DESIGNS).map(([name, d]) => [name, d.palette])),
+};
+
 interface Settings {
-  colours: Palette;
+  colours: Palette; // for every design, from ?colours=
+  own: Record<string, Palette>; // for one design each, from ?colours.<design>=
   picks: number;
   note: string; // anything the caption should say about the address
 }
 
+// A design's colours: its own, then any for every design, then any for it alone.
+const coloursFor = (name: string, s: Settings): Palette => ({ ...DESIGN_PALETTES[name], ...s.colours, ...s.own[name] });
+
 function design(name: string, s: Settings): Piece {
   const d = DESIGNS[name]!;
-  const palette = { ...d.palette, ...s.colours };
+  const palette = coloursFor(name, s);
   const cloth = 'make' in d ? d.make(palette) : woven(d.draft(), d.warp, d.weft, palette);
   return { cloth, caption: s.note + d.caption, picks: s.picks };
 }
@@ -135,7 +146,7 @@ function design(name: string, s: Settings): Piece {
 function madeUpTartan(seed: number, s: Settings): Piece {
   const sett = generateSett(seededRandom(seed), Object.keys(LIGHT));
   return {
-    cloth: tartan({ sett, symmetry: 'symmetric', colours: { ...LIGHT, ...s.colours } }),
+    cloth: tartan({ sett, symmetry: 'symmetric', colours: coloursFor('tartan', s) }),
     caption: `${s.note}A made-up tartan · sett ${sett} · seed ${seed}`,
     picks: s.picks,
   };
@@ -147,7 +158,7 @@ function madeUpTartan(seed: number, s: Settings): Piece {
 // lasts, and ?seed= fixes the made-up tartans so they can be shown again.
 export function sceneFromAddress(search: string, random: () => number = Math.random): Scene {
   const params = new URLSearchParams(search);
-  const settings: Settings = { colours: {}, picks: Number.parseInt(params.get('picks') ?? '', 10) || 200, note: '' };
+  const settings: Settings = { colours: {}, own: {}, picks: Number.parseInt(params.get('picks') ?? '', 10) || 200, note: '' };
 
   const colours = params.get('colours');
   if (colours !== null) {
@@ -155,6 +166,16 @@ export function sceneFromAddress(search: string, random: () => number = Math.ran
       settings.colours = parseColours(colours);
     } catch (error) {
       settings.note = `Could not read the colours: ${error instanceof Error ? error.message : String(error)}. `;
+    }
+  }
+
+  for (const name of SCENE_NAMES) {
+    const own = params.get(`colours.${name}`);
+    if (own === null) continue;
+    try {
+      settings.own[name] = parseColours(own);
+    } catch (error) {
+      settings.note += `Could not read the colours for ${name}: ${error instanceof Error ? error.message : String(error)}. `;
     }
   }
 
@@ -169,7 +190,7 @@ export function sceneFromAddress(search: string, random: () => number = Math.ran
     for (const text of typed) {
       try {
         const sett = formatSett(parseSett(text));
-        const cloth = tartan({ sett, symmetry: 'symmetric', colours: { ...LIGHT, ...settings.colours } });
+        const cloth = tartan({ sett, symmetry: 'symmetric', colours: coloursFor('tartan', settings) });
         pieces.push({ cloth, caption: `Your tartan · sett ${sett}`, picks: settings.picks });
       } catch (error) {
         problems.push(`Could not weave that sett: ${error instanceof Error ? error.message : String(error)}. `);

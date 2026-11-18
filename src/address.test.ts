@@ -19,6 +19,16 @@ describe('reading settings from the address', () => {
     expect(s).toMatchObject({ picks: 30, speed: 16, blend: 0, cell: 12, seed: 780891, caption: false, setts: ['B6G6', 'K4R24'] });
   });
 
+  it('reads colours for every design, and for each design on its own', () => {
+    const s = readSettings('?colours=L-00ff00&colours.glen=L-ff0000,K-000000&colours.kasuri=I-123456');
+    expect(s.colours).toBe('L-00ff00');
+    expect(s.designColours).toEqual({ glen: { L: '#ff0000', K: '#000000' }, kasuri: { I: '#123456' } });
+  });
+
+  it('skips colours for designs it does not know, or that cannot be read', () => {
+    expect(readSettings('?colours.nonsense=L-ff0000&colours.glen=L-red').designColours).toEqual({});
+  });
+
   it('falls back to the default for numbers it cannot read', () => {
     expect(readSettings('?picks=lots&speed=-3').picks).toBe(200);
     expect(readSettings('?picks=lots&speed=-3').speed).toBe(8);
@@ -30,13 +40,29 @@ describe('writing settings into the address', () => {
     expect(writeAddress(DEFAULTS)).toBe('');
   });
 
+  it('writes a design\'s colours as colours.<design>, leaving out designs with none changed', () => {
+    expect(writeAddress({ ...DEFAULTS, designColours: { glen: { L: '#ff0000' }, kasuri: {} } })).toBe('?colours.glen=L-ff0000');
+  });
+
   it('writes one design as ?scene= and several as ?play=', () => {
     expect(writeAddress({ ...DEFAULTS, play: ['glen'] })).toBe('?scene=glen');
     expect(writeAddress({ ...DEFAULTS, play: ['glen', 'kasuri', 'tartan'] })).toBe('?play=glen,kasuri,tartan');
   });
 
   it('gives back the same settings when read again', () => {
-    const s = { ...DEFAULTS, play: ['damask', 'tartan'], picks: 30, speed: 12, blend: 0, cell: 6, seed: 42, caption: false, setts: ['B6G6B6R2Y4', 'K4R24'] };
+    const s = {
+      ...DEFAULTS,
+      play: ['damask', 'tartan'],
+      picks: 30,
+      speed: 12,
+      blend: 0,
+      cell: 6,
+      seed: 42,
+      caption: false,
+      setts: ['B6G6B6R2Y4', 'K4R24'],
+      colours: 'W-ffffff',
+      designColours: { damask: { W: '#ff0000' } },
+    };
     expect(readSettings(writeAddress(s))).toEqual(s);
   });
 });

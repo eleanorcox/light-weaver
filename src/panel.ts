@@ -1,6 +1,7 @@
 import { DEFAULTS, writeAddress, type Settings } from './address';
+import { parseColours, type Palette } from './core/palette';
 import { count, move, setCount, tick } from './playlist';
-import { DESIGN_LABELS, SCENE_NAMES } from './scenes';
+import { DESIGN_LABELS, DESIGN_PALETTES, SCENE_NAMES } from './scenes';
 
 // How long the settings button stays after the mouse last moved, so the piece is left alone
 // when nobody is touching it.
@@ -107,6 +108,49 @@ export function startPanel(settings: Settings): void {
     (arrow && !arrow.disabled ? arrow : arrows?.[to < from ? 1 : 0])?.focus();
   }
 
+  // Colours: a swatch for each colour of each design being woven. A change applies to that
+  // design alone; Default puts its colours back.
+  const designColours: Record<string, Record<string, string>> = Object.fromEntries(Object.entries(settings.designColours).map(([n, p]) => [n, { ...p }]));
+  const everywhere = ((): Palette => {
+    try {
+      return parseColours(settings.colours);
+    } catch {
+      return {};
+    }
+  })();
+  // Colour pickers need six-digit hex, so #f0c becomes #ff00cc.
+  const six = (hex: string): string => (hex.length === 4 ? `#${[...hex.slice(1)].map((d) => d + d).join('')}` : hex);
+  const colourList = el('div', { className: 'colours' });
+  let colourKey = '';
+  function drawColours(): void {
+    const names = [...new Set(play.length > 0 ? play : DEFAULTS.play)];
+    if (names.join() === colourKey) return;
+    colourKey = names.join();
+    colourList.replaceChildren(
+      ...names.map((name) => {
+        const usual = { ...DESIGN_PALETTES[name], ...everywhere };
+        const swatches = Object.keys(DESIGN_PALETTES[name] ?? {}).map((code) => {
+          const swatch = el('input', { type: 'color', value: six(designColours[name]?.[code] ?? usual[code]!), title: `Colour ${code}`, ariaLabel: `${label(name)}, colour ${code}` });
+          swatch.addEventListener('input', () => {
+            const own = (designColours[name] ??= {});
+            if (swatch.value === six(usual[code]!)) delete own[code];
+            else own[code] = swatch.value;
+          });
+          return swatch;
+        });
+        const usualButton = el('button', { type: 'button', textContent: 'Default', ariaLabel: `Default colours for ${label(name)}` });
+        usualButton.addEventListener('click', () => {
+          delete designColours[name];
+          swatches.forEach((sw, k) => (sw.value = six(usual[Object.keys(DESIGN_PALETTES[name] ?? {})[k]!]!)));
+          refresh();
+        });
+        // Made-up and typed tartans share these colours.
+        const title = name === 'tartan' ? 'Tartans' : label(name);
+        return el('div', { className: 'colour-row' }, el('span', { className: 'name', title }, title), el('span', { className: 'swatches' }, ...swatches), usualButton);
+      }),
+    );
+  }
+
   const picks = slider('Rows per design', settings.picks, 10, 400, 10, '');
   const speed = slider('Speed', settings.speed, 1, 40, 1, ' rows a second');
   const blend = slider('Blend', settings.blend, 0, 64, 2, ' rows');
@@ -126,6 +170,7 @@ export function startPanel(settings: Settings): void {
       { className: 'body' },
       section('Designs', true, el('div', { className: 'pair' }, all, none), designs),
       section('Order', true, order),
+      section('Colours', false, colourList),
       section('Weaving', false, picks.row, speed.row, blend.row, cell.row, el('label', { className: 'row' }, el('span', {}, 'Captions'), caption)),
       section('Tartans', false, el('label', { className: 'row' }, el('span', {}, 'Seed for made-up tartans'), seed), el('label', { className: 'stack' }, el('span', {}, 'Your own setts, one a line, woven instead of the designs'), setts)),
     ),
@@ -144,6 +189,9 @@ export function startPanel(settings: Settings): void {
       ...(Number.isFinite(typedSeed) ? { seed: typedSeed } : {}),
       caption: caption.checked,
       setts: setts.value.split('\n').map((s) => s.trim()).filter(Boolean),
+      colours: settings.colours,
+      // Only the designs being woven keep their colours, so the address stays short.
+      designColours: Object.fromEntries(Object.entries(designColours).filter(([n, p]) => (play.length > 0 ? play : DEFAULTS.play).includes(n) && Object.keys(p).length > 0)),
     };
   }
 
@@ -154,6 +202,7 @@ export function startPanel(settings: Settings): void {
     many.hidden = !play.includes('tartan');
     if (!many.hidden && document.activeElement !== many) many.value = String(count(play, 'tartan'));
     drawOrder();
+    drawColours();
     const changed = writeAddress(chosen()) !== writeAddress(settings);
     weave.textContent = changed ? 'Weave with these changes' : 'Weaving these settings';
     weave.classList.toggle('changed', changed);

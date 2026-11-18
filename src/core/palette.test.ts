@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { parseColours } from './palette';
+import { formatColours, parseColours } from './palette';
 
 describe('parseColours', () => {
   it('reads colour letters and hex values, without the # that web addresses cannot carry', () => {
@@ -17,5 +17,12 @@ describe('parseColours', () => {
   it('refuses anything else, quoting it', () => {
     expect(() => parseColours('B-blue')).toThrow(/B-blue/);
     expect(() => parseColours('B2a4bd7')).toThrow(/B2a4bd7/);
+  });
+});
+
+describe('formatColours', () => {
+  it('writes colours for a web address, without the #, and reads back the same', () => {
+    expect(formatColours({ L: '#ff0000', K: '#1c1c30' })).toBe('L-ff0000,K-1c1c30');
+    expect(parseColours(formatColours({ L: '#ff0000', DB: '#123' }))).toEqual({ L: '#ff0000', DB: '#123' });
   });
 });

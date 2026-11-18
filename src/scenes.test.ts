@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { sceneFromAddress, SCENE_NAMES } from './scenes';
+import { DESIGN_PALETTES, sceneFromAddress, SCENE_NAMES } from './scenes';
 
 describe('scenes', () => {
   it('builds every named scene as a single piece', () => {
@@ -88,6 +88,31 @@ describe('colours in the address', () => {
   it('adds new colour letters that a typed sett can use', () => {
     const piece = sceneFromAddress('?sett=P4K4&colours=P-9b4dff').pieces[0]!;
     expect(piece.cloth.warpColour(0, 0)).toBe('#9b4dff');
+  });
+
+  it('changes one design\'s colours with colours.<design>, leaving the others alone', () => {
+    const [glen, houndstooth] = sceneFromAddress('?play=glen,houndstooth&colours.glen=L-ff0000').pieces;
+    expect(glen!.cloth.warpColour(0, 0)).toBe('#ff0000');
+    expect(houndstooth!.cloth.warpColour(0, 0)).not.toBe('#ff0000');
+  });
+
+  it('lets a design\'s own colours win over colours for every design', () => {
+    const piece = sceneFromAddress('?scene=glen&colours=L-00ff00&colours.glen=L-ff0000').pieces[0]!;
+    expect(piece.cloth.warpColour(0, 0)).toBe('#ff0000');
+  });
+
+  it('uses the made-up tartan\'s colours for made-up and typed tartans alike', () => {
+    expect(sceneFromAddress('?sett=B4K4&colours.tartan=B-ff0000').pieces[0]!.cloth.warpColour(0, 0)).toBe('#ff0000');
+    expect(sceneFromAddress('?scene=tartan&seed=1&colours.tartan=B-ff0000,R-ff0000,G-ff0000,Y-ff0000,W-ff0000,K-ff0000').pieces[0]!.cloth.warpColour(0, 0)).toBe('#ff0000');
+  });
+
+  it('says so in the caption when a design\'s colours cannot be read', () => {
+    expect(sceneFromAddress('?scene=glen&colours.glen=L-red').pieces[0]!.caption).toMatch(/L-red/);
+  });
+
+  it('knows the colours of every design, for the settings', () => {
+    for (const name of SCENE_NAMES) expect(Object.keys(DESIGN_PALETTES[name] ?? {}).length).toBeGreaterThan(0);
+    expect(DESIGN_PALETTES.glen).toEqual({ L: '#f4ecd8', K: '#1c1c30' });
   });
 
   it('says so in the caption when the colours cannot be read, and uses the usual ones', () => {

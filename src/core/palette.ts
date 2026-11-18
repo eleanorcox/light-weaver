@@ -11,3 +11,8 @@ export function parseColours(text: string): Record<string, string> {
   }
   return colours;
 }
+
+// Colours written for a web address, the reverse of parseColours.
+export function formatColours(colours: Palette): string {
+  return Object.entries(colours).map(([code, hex]) => `${code}-${hex.replace(/^#/, '')}`).join(',');
+}

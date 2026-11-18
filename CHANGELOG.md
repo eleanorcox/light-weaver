@@ -13,6 +13,7 @@ Versions are numbered v1, v2 and so on, each with a git tag of the same name. Ne
 ### Added
 
 - Several tartans woven one into another: repeat `sett=` in the address, as in `?sett=B6G6B6R2Y4&sett=K4R24K24Y4`. Made-up ones: `?play=tartan,tartan,tartan`.
+- Four more designs: monk's belt, bird's eye, linen damask in the tradition of Lisburn, and Welsh double cloth in the tradition of the carthen (`?scene=monksbelt`, `birdseye`, `damask`, `doublecloth`), the last two with our own motifs.
 
 ## v2: one cloth after another (17 November 2026)
 

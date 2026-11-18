@@ -66,7 +66,11 @@ Bundles of thread are tied and dyed before weaving, so the pattern is already in
 
 Built so far, from drafts and colour orders: see the [design gallery](designs.md). Gingham, windowpane, tattersall and Prince of Wales check colour orders are also from memory and unchecked. The colour orders for houndstooth (four and four), Glen check (blocks of four-and-four and two-and-two) and gun club check (two check colours, one in the warp and one in the weft) are from memory and unchecked; they look right, but need sources before they are named as traditions in the catalogue.
 
-Next candidates: barleycorn (named in the Hebridean tweed research), birdseye, overshot (a second, thicker weft floating over a plain ground), and double cloth for the Welsh blankets, which needs each crossing to know which layer is on top.
+Monk's belt, bird's eye, linen damask and Welsh double cloth were added after a second round of research ([research/structures.md](research/structures.md)). Next candidates, each waiting on a source: rosepath, shepherd's check in its historic undyed and dark wool colours, overshot coverlets from Bronson's 1817 book, summer and winter, huck, M's and O's, and Hebridean barleycorn.
+
+## Other ways for one cloth to turn into the next
+
+The hand-over is a soft wave across the warp for now. Others to try: a diagonal sweep, a V, or one led by the incoming cloth itself (its stripes, or its figure, changing first).
 
 ## Rugs
 

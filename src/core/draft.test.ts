@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { basketWeave, brokenTwill, diamondTwill, drawdown, herringbone, plainWeave, pointTwill, satin, twill, twill22 } from './draft';
+import { basketWeave, birdsEye, brokenTwill, diamondTwill, monksBelt, drawdown, herringbone, plainWeave, pointTwill, satin, twill, twill22 } from './draft';
 
 // Rows of the drawdown as strings: '|' where the warp is on top, '-' where the weft is.
 function picture(draft: Parameters<typeof drawdown>[0], ends: number, picks: number): string[] {
@@ -136,5 +136,44 @@ describe('twill by its counts', () => {
 describe('broken twill', () => {
   it('keeps two up and two down in every row, but swaps the last two picks so no diagonal runs on', () => {
     expect(picture(brokenTwill(), 4, 4)).toEqual(['||--', '-||-', '|--|', '--||']);
+  });
+});
+
+describe("monk's belt", () => {
+  // Block A is threads 0 to 5 (shafts 0 and 1), block B threads 6 to 11 (shafts 2 and 3).
+  const up = drawdown(monksBelt());
+
+  it('floats the pattern weft over block A and under block B on a block A pick', () => {
+    for (let i = 0; i < 6; i++) expect(up(i, 0)).toBe(false);
+    for (let i = 6; i < 12; i++) expect(up(i, 0)).toBe(true);
+  });
+
+  it('floats the pattern weft over block B on a block B pick', () => {
+    for (let i = 0; i < 6; i++) expect(up(i, 6)).toBe(true);
+    for (let i = 6; i < 12; i++) expect(up(i, 6)).toBe(false);
+  });
+
+  it('weaves a plain-weave tabby pick between every two pattern picks', () => {
+    for (const j of [1, 3, 5, 7, 9, 11]) {
+      const row = Array.from({ length: 12 }, (_, i) => up(i, j));
+      for (let i = 1; i < 12; i++) expect(row[i]).not.toBe(row[i - 1]);
+    }
+  });
+});
+
+describe("bird's eye", () => {
+  it('threads 4,3,2,3,4,1,2,3,4,3,2,1 on four shafts, as Schacht gives it', () => {
+    expect(birdsEye().threading).toEqual([3, 2, 1, 2, 3, 0, 1, 2, 3, 2, 1, 0]);
+  });
+
+  it('is woven as drawn in: the treadling follows the threading', () => {
+    expect(birdsEye().treadling).toEqual(birdsEye().threading);
+  });
+
+  // A point threading turning back on itself floats a thread over three at each turn.
+  it('never floats a thread over more than three others, either way', () => {
+    const rows = picture(birdsEye(), 48, 48);
+    for (const row of rows) expect(row).not.toMatch(/\|{4}|-{4}/);
+    for (let i = 0; i < 48; i++) expect(rows.map((r) => r[i]).join('')).not.toMatch(/\|{4}|-{4}/);
   });
 });

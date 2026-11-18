@@ -69,7 +69,7 @@ function gcd(a: number, b: number): number {
   return b === 0 ? a : gcd(b, a % b);
 }
 
-// A warp-faced satin: one warp thread lifted in every `ends`, moving `step` threads along each
+// A satin with the weft on top (a sateen): one warp thread lifted in every `ends`, moving `step` threads along each
 // pick. The step must share no factor with `ends` (or some threads are never lifted) and must
 // not be 1 or ends − 1 (which would be a twill).
 export function satin(ends: number, step: number): Draft {
@@ -95,4 +95,23 @@ export function twill(over: number, under: number): Draft {
 // A 2/2 twill with the last two picks of each repeat swapped, so the diagonal keeps breaking.
 export function brokenTwill(): Draft {
   return { threading: [0, 1, 2, 3], tieUp: TWILL_22_TIE_UP, treadling: [0, 1, 3, 2] };
+}
+
+// Monk's belt, "a two-block form of overshot, with the blocks drafted on opposites" (Bress,
+// quoted by Schacht): block A threaded on shafts 0 and 1, block B on 2 and 3. A pattern pick
+// lifts the other block, so its weft floats over this one; a plain-weave tabby pick (shafts 0
+// and 2, or 1 and 3) follows each. The treadling is Schacht's example: three of A, three of B.
+export function monksBelt(): Draft {
+  return {
+    threading: [0, 1, 0, 1, 0, 1, 2, 3, 2, 3, 2, 3],
+    tieUp: [[0, 2], [1, 3], [2, 3], [0, 1]],
+    treadling: [2, 0, 2, 1, 2, 0, 3, 1, 3, 0, 3, 1],
+  };
+}
+
+// Bird's eye: a small diamond with a dot at its centre. Threading as Schacht gives it; the
+// treadling (as drawn in, on a 2/2 twill tie-up) is our own working, not from a source.
+export function birdsEye(): Draft {
+  const threading = [3, 2, 1, 2, 3, 0, 1, 2, 3, 2, 1, 0];
+  return { threading, tieUp: TWILL_22_TIE_UP, treadling: threading };
 }

@@ -1,4 +1,5 @@
-import { brokenTwill, basketWeave, diamondTwill, herringbone, plainWeave, pointTwill, satin, twill, twill22, type Draft } from './core/draft';
+import { damask, doubleCloth } from './core/blocks';
+import { birdsEye, brokenTwill, basketWeave, diamondTwill, monksBelt, herringbone, plainWeave, pointTwill, satin, twill, twill22, type Draft } from './core/draft';
 import type { Cloth } from './core/cloth';
 import { kasuri } from './core/kasuri';
 import { woven } from './core/order';
@@ -42,6 +43,23 @@ const CROSSES = Array.from({ length: 16 }, (_, y) =>
   }).join(''),
 );
 
+// Our own damask motif, not a traditional one: a diamond ring around a small diamond, with
+// quarter diamonds meeting at the corners as it repeats.
+const LOZENGE = Array.from({ length: 20 }, (_, y) =>
+  Array.from({ length: 20 }, (_, x) => {
+    const d = Math.abs(x - 9.5) + Math.abs(y - 9.5);
+    return (d >= 6 && d <= 8) || d <= 2 || d >= 15 ? '#' : '.';
+  }).join(''),
+);
+
+// Our own double cloth motif, not a mill design: squares within squares.
+const SQUARES = Array.from({ length: 12 }, (_, y) =>
+  Array.from({ length: 12 }, (_, x) => {
+    const ring = Math.max(Math.abs(x - 5.5), Math.abs(y - 5.5));
+    return ring > 4.5 || (ring > 2 && ring < 3.5) || ring < 1 ? '#' : '.';
+  }).join(''),
+);
+
 const GLEN = 'L4 K4 L4 K4 L4 K4 L2 K2 L2 K2 L2 K2 L2 K2 L2 K2 L2 K2';
 
 const DESIGNS: Record<string, Design> = {
@@ -70,6 +88,24 @@ const DESIGNS: Record<string, Design> = {
     make: (p) => kasuri({ motif: CROSSES, colours: { dyed: p.I!, undyed: p.W! }, drift: 1, seed: 1 }),
     palette: { I: '#2f4fb0', W: '#f4ecd8' },
     caption: 'Kasuri, in the tradition of Kurume: warp and weft tied and dyed with indigo before weaving, so the pattern forms with soft edges as the threads meet. Our own motif',
+  },
+  monksbelt: {
+    draft: monksBelt,
+    warp: 'T1',
+    weft: 'P1 T1',
+    palette: { T: '#f4ecd8', P: '#ff3b4a' },
+    caption: "Monk's belt: two blocks of threads, each in turn covered by long floats of colour, with a plain-weave pick between every two",
+  },
+  birdseye: { draft: birdsEye, warp: 'G1', weft: 'N1', palette: { G: '#2fd27a', N: '#1c2a40' }, caption: "Bird's eye: a point twill making small diamonds, each with a dot at its centre" },
+  damask: {
+    make: (p) => damask({ motif: LOZENGE, block: 2, ends: 5, step: 2, colours: { warp: p.W!, weft: p.S! } }),
+    palette: { W: '#eef2ff', S: '#7f8cb0' },
+    caption: 'Linen damask, in the tradition of Lisburn: one warp and one weft, the figure in warp satin and the ground in weft sateen, so the pattern is drawn by light alone. Our own motif',
+  },
+  doublecloth: {
+    make: (p) => doubleCloth({ motif: SQUARES, block: 4, colours: { a: { warp: p.C!, weft: p.D! }, b: { warp: p.R!, weft: p.M! } } }),
+    palette: { C: '#f4ecd8', D: '#e0d2b0', R: '#d8343e', M: '#a8243a' },
+    caption: 'Welsh double cloth, in the tradition of the carthen: two layers woven at once that swap places to make the pattern, the back the reverse of the front. Our own design',
   },
   tattersall: { draft: plainWeave, warp: 'W10 R2 W10 G2', weft: 'W10 R2 W10 G2', palette: { W: '#f4ecd8', R: '#ff3b4a', G: '#2fd27a' }, caption: 'Tattersall: thin lines of two colours, alternating, crossing a light ground' },
 };

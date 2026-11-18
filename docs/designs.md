@@ -147,3 +147,35 @@ Thin lines of two colours, alternating, crossing a light ground.
 Warp and weft are tied and dyed with indigo before weaving, so the pattern forms with soft edges as the threads meet. The motif is our own, not a traditional one. Sources and credits: [research/elsewhere.md](research/elsewhere.md#kasuri-in-the-tradition-of-kurume).
 
 ![Kasuri](designs/kasuri.png)
+
+## Monk's belt
+
+`?scene=monksbelt`
+
+Two blocks of threads, each in turn covered by long floats of a coloured pattern weft, with a plain-weave pick between every two. Threading and treadling from Schacht Spindle's sampler. Sources: [research/structures.md](research/structures.md#monks-belt).
+
+![Monk's belt](designs/monksbelt.png)
+
+## Bird's eye
+
+`?scene=birdseye`
+
+A point twill making small diamonds, each with a dot at its centre. Threading from Schacht Spindle; the treadling is our own working.
+
+![Bird's eye](designs/birdseye.png)
+
+## Linen damask, in the tradition of Lisburn
+
+`?scene=damask`
+
+One warp and one weft: the figure in warp satin, the ground in weft sateen, so the pattern shows only by which thread catches the light. The motif is our own. Sources: [research/structures.md](research/structures.md#linen-damask).
+
+![Linen damask](designs/damask.png)
+
+## Welsh double cloth, in the tradition of the carthen
+
+`?scene=doublecloth`
+
+Two layers woven at once that swap places to make the pattern. Only the face is drawn. The design is our own, not a mill's. Sources: [research/british-traditions.md](research/british-traditions.md#welsh-double-cloth).
+
+![Welsh double cloth](designs/doublecloth.png)

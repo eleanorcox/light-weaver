@@ -7,7 +7,7 @@ Read in this order:
 1. [Vision](vision.md): what the project is and where it comes from.
 2. [Ideas](ideas.md): every idea so far, each scoped to its smallest useful version.
 3. [Open questions](open-questions.md): decisions that are still Eleanor's to make.
-4. [Research](research/british-traditions.md): what needs finding out about the British traditions, and what has been found.
+4. [Research](research/british-traditions.md): what needs finding out about the British traditions, and what has been found; also [traditions from elsewhere](research/elsewhere.md) and [more weave structures](research/structures.md).
 5. [Decision log](decisions.md): what was decided, when, what prompted it and what it replaced.
 6. [Version log](versions.md): how each version felt to use, with its screencast. The plain list of changes is the [changelog](../CHANGELOG.md).
 

@@ -40,6 +40,7 @@ Template:
 | [9](#9-one-cloth-after-another) | One cloth after another | 17 Nov 2026 | Replaced by 11 |
 | [10](#10-kasuri-first-kente-and-dumbara-wait) | Kasuri first; kente and Dumbara wait | 17 Nov 2026 | Built |
 | [11](#11-one-cloth-turns-into-the-next) | One cloth turns into the next | 18 Nov 2026 | Built |
+| [12](#12-block-weaves-damask-and-double-cloth-face-only) | Block weaves: damask and double cloth, face only | 18 Nov 2026 | Built |
 
 ## 1. Working name: Light Weaver
 
@@ -139,3 +140,12 @@ Template:
 - **Decision:** No bare loom between pieces. Each warp thread changes to the next piece at its own pick, within a band (32 picks by default, `?blend=`) around where the new piece starts, so the two cloths meet along a soft, wavy line that differs at every change and is the same each time round. The unwoven warp changes thread by thread with it. Several setts can be typed (`?sett=...&sett=...`) and are woven one into the next.
 - **Alternatives considered:** A cross-fade of colours, which would blend two cloths into a third that neither tradition has; a straight line, which is what a real loom gives but reads as a cut (still available as `?blend=0`); keeping one warp and changing only the weft, which most pairs of designs cannot do because their warps differ.
 - **What follows from it:** Replaces the 16 picks of bare loom from [decision 9](#9-one-cloth-after-another); the rest of 9 stands. Every crossing, not every row, now asks which piece it belongs to.
+
+## 12. Block weaves: damask and double cloth, face only
+
+- **Date:** 18 November 2026
+- **Status:** Built
+- **What prompted it:** Eleanor asked for more heritage designs, skipping anything that needs someone's permission for now. A second round of research ([structures.md](research/structures.md)) found four that could be built with checked sources: monk's belt, bird's eye, linen damask and Welsh double cloth.
+- **Decision:** Monk's belt and bird's eye are drafts like the others. Damask and double cloth are drawn from a block motif (a grid of figure and ground, as a Jacquard or a profile draft gives it) with a weave for each: warp satin and weft sateen for damask; two plain-weave layers for double cloth, of which only the face is drawn. The motifs are our own. Rosepath, shepherd's check, estate checks, Witney bands and the Hudson's Bay stripe wait, for sources or permission.
+- **Alternatives considered:** Drawing both layers of double cloth thread by thread, which would show the hidden layer speckled through the face, which real cloth does not; writing damask as a many-shaft draft, which would be long and say nothing a block grid does not.
+- **What follows from it:** `src/core/blocks.ts` can carry other block weaves later (summer and winter, overshot) from the same kind of motif.

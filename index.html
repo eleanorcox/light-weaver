@@ -23,17 +23,43 @@
       }
       .open.awake, .open:focus-visible { opacity: 0.8; }
       .panel {
-        width: min(22rem, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); overflow-y: auto; box-sizing: border-box;
-        background: #0c0c16ee; border: 1px solid #f4ecd826; border-radius: 0.75rem; padding: 0.75rem 1rem 1rem;
+        width: min(22rem, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); box-sizing: border-box;
+        display: flex; flex-direction: column;
+        background: #0c0c16ee; border: 1px solid #f4ecd826; border-radius: 0.75rem;
         backdrop-filter: blur(6px);
       }
       .panel[hidden] { display: none; }
-      .panel header { display: flex; justify-content: space-between; align-items: center; }
+      .panel header { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0.75rem 0.25rem 1rem; }
       .panel h2 { font-size: 1rem; font-weight: 500; margin: 0; }
-      .panel fieldset { border: 0; border-top: 1px solid #f4ecd81f; margin: 0.75rem 0 0; padding: 0.5rem 0 0; }
-      .panel legend { opacity: 0.6; padding: 0 0.25rem 0 0; }
-      .panel .designs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.15rem 0.75rem; margin-top: 0.4rem; }
-      .panel .design { display: flex; gap: 0.4rem; align-items: baseline; font-size: 0.8rem; }
+      .panel .body { overflow-y: auto; padding: 0 1rem 0.5rem; }
+      .panel footer {
+        display: flex; gap: 0.5rem; padding: 0.75rem 1rem; border-top: 1px solid #f4ecd81f;
+      }
+      .panel details { border-top: 1px solid #f4ecd81f; padding: 0.4rem 0; }
+      .panel summary { cursor: pointer; padding: 0.2rem 0; opacity: 0.8; font-weight: 500; }
+      .panel summary:hover { opacity: 1; }
+      .panel details[open] > summary { margin-bottom: 0.3rem; }
+      .panel .designs {
+        display: grid; grid-auto-flow: column; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-rows: repeat(var(--rows), auto); gap: 0.15rem 0.75rem; margin-top: 0.4rem;
+      }
+      .panel .design { display: flex; gap: 0.4rem; align-items: center; font-size: 0.8rem; }
+      .panel input[type=number].many { width: 2.6rem; padding: 0.05rem 0.3rem; margin-left: auto; flex: none; }
+      .panel .many[hidden] { display: none; }
+      .panel .order { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.15rem; counter-reset: piece; }
+      .panel .order li {
+        display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; counter-increment: piece;
+        padding: 0.15rem 0.3rem; border-radius: 0.35rem; background: #ffffff08; cursor: grab;
+      }
+      .panel .order li::before { content: counter(piece); opacity: 0.5; min-width: 1.2rem; text-align: right; font-variant-numeric: tabular-nums; }
+      .panel .order li.empty { cursor: default; opacity: 0.6; background: none; }
+      .panel .order li.empty::before { content: none; }
+      .panel .order li.dragging { opacity: 0.4; }
+      .panel .order li.target { outline: 1px dashed #ffd23a; }
+      .panel .order .grip { opacity: 0.4; letter-spacing: -0.2em; }
+      .panel .order .name { flex: 1; }
+      .panel .order button { padding: 0 0.4rem; font-size: 0.75rem; }
+      .panel .order button:disabled { opacity: 0.25; cursor: default; }
       .panel .row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0.1rem 0.5rem; margin: 0.35rem 0; }
       .panel .row input[type=range] { grid-column: 1 / -1; grid-row: 2; width: 100%; accent-color: #ffd23a; }
       .panel output { opacity: 0.7; font-variant-numeric: tabular-nums; }
@@ -44,13 +70,14 @@
       }
       .panel textarea { width: 100%; font-family: ui-monospace, monospace; resize: vertical; }
       .panel input[type=checkbox] { accent-color: #ffd23a; }
-      .panel .pair { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+      .panel .pair { display: flex; gap: 0.5rem; margin-top: 0.25rem; }
       .panel button {
         background: #ffffff12; color: inherit; border: 1px solid #f4ecd833; border-radius: 0.35rem;
         padding: 0.35rem 0.8rem; font: inherit; cursor: pointer;
       }
-      .panel button:hover { background: #ffffff22; }
-      .panel .weave { background: #ffd23a; color: #05050a; border-color: #ffd23a; font-weight: 600; }
+      .panel button:hover:not(:disabled) { background: #ffffff22; }
+      .panel .weave { flex: 1; opacity: 0.6; }
+      .panel .weave.changed { opacity: 1; background: #ffd23a; color: #05050a; border-color: #ffd23a; font-weight: 600; }
       .panel .close { border: 0; background: none; font-size: 1.3rem; line-height: 1; padding: 0.2rem 0.4rem; }
       .panel :focus-visible { outline: 2px solid #ffd23a; outline-offset: 2px; }
     </style>

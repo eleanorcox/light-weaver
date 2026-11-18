@@ -11,6 +11,7 @@ describe('reading settings from the address', () => {
   it('reads one design from ?scene= and a list from ?play=', () => {
     expect(readSettings('?scene=glen').play).toEqual(['glen']);
     expect(readSettings('?play=glen,nonsense,satin').play).toEqual(['glen', 'satin']);
+    expect(readSettings('?play=tartan,glen,tartan').play).toEqual(['tartan', 'glen', 'tartan']);
   });
 
   it('reads the numbers, the seed, captions and typed setts', () => {

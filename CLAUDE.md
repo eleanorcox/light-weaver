@@ -35,5 +35,5 @@ Run `npm test` and `npm run typecheck` before calling anything done.
 - `src/core/blocks.ts` weaves a block motif (figure and ground) as damask or double cloth.
 - `src/core/programme.ts` plays pieces one after another, each turning into the next thread by thread; `src/core/palette.ts` reads `?colours=`.
 - `src/scenes.ts` holds every design (a draft and colour orders in lettered colours) and builds the programme from the address.
-- `src/address.ts` reads and writes the settings in the address; `src/panel.ts` is the settings panel.
+- `src/address.ts` reads and writes the settings in the address; `src/panel.ts` is the settings panel, and `src/playlist.ts` the list of designs it edits.
 - Address settings (query parameters), also set from the panel: `?scene=`, `?play=`, `?picks=`, `?colours=`, `?seed=`, `?sett=` (repeatable), `?blend=` (rows a change between pieces is spread over), `?speed=` (picks per second), `?cell=` (pixels per thread), `?caption=off`.

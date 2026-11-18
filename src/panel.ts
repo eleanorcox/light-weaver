@@ -304,8 +304,13 @@ export function startPanel(settings: Settings, options: PanelOptions = {}): Pane
       caption: caption.checked,
       setts: setts.value.split('\n').map((s) => s.trim()).filter(Boolean),
       colours: settings.colours,
-      // Only the designs being woven keep their colours, so the address stays short.
-      designColours: Object.fromEntries(Object.entries(designColours).filter(([n, p]) => (play.length > 0 ? play : DEFAULTS.play).includes(n) && Object.keys(p).length > 0)),
+      // Only the designs being woven keep their colours, so the address stays short. Copied, so
+      // later changes in the panel cannot alter settings already woven in.
+      designColours: Object.fromEntries(
+        Object.entries(designColours)
+          .filter(([n, p]) => (play.length > 0 ? play : DEFAULTS.play).includes(n) && Object.keys(p).length > 0)
+          .map(([n, p]) => [n, { ...p }]),
+      ),
       live,
     };
   }

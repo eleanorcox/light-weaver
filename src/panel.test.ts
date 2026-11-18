@@ -107,3 +107,23 @@ describe('the colour picker', () => {
     expect(swatch.dataset.colour).toBe('#123456');
   });
 });
+
+describe('changing colours as they are made', () => {
+  beforeEach(() => {
+    document.body.replaceChildren();
+    vi.useFakeTimers();
+  });
+
+  it('weaves in every change to a colour, not only the first', () => {
+    const seen: Settings[] = [];
+    startPanel(readSettings('?scene=glen&live=on'), { onLive: (s) => seen.push(s) });
+    document.querySelector<HTMLButtonElement>('.swatch')!.click();
+    const hex = document.querySelector<HTMLInputElement>('.colour-editor input.hex')!;
+    for (const colour of ['#ff0000', '#00ff00', '#0000ff']) {
+      hex.value = colour;
+      hex.dispatchEvent(new Event('input', { bubbles: true }));
+      vi.runAllTimers();
+    }
+    expect(seen.map((s) => s.designColours.glen?.L)).toEqual(['#ff0000', '#00ff00', '#0000ff']);
+  });
+});

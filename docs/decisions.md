@@ -32,7 +32,7 @@ Template:
 | [1](#1-working-name-light-weaver) | Working name: Light Weaver | 17 Nov 2026 | Decided |
 | [2](#2-heritage-textiles-woven-from-their-own-rules) | Heritage textiles, woven from their own rules | 17 Nov 2026 | Decided |
 | [3](#3-woven-textiles-only-for-now) | Woven textiles only, for now | 17 Nov 2026 | Decided |
-| [4](#4-a-passive-visual) | A passive visual | 17 Nov 2026 | Decided |
+| [4](#4-a-passive-visual) | A passive visual | 17 Nov 2026 | Replaced by 13 |
 | [5](#5-built-in-the-browser) | Built in the browser | 17 Nov 2026 | Decided |
 | [6](#6-british-traditions-first) | British traditions first | 17 Nov 2026 | Decided |
 | [7](#7-the-same-set-up-as-the-aquarium-canvas-2d-first) | The same set-up as the aquarium; Canvas 2D first | 17 Nov 2026 | Built |
@@ -41,6 +41,7 @@ Template:
 | [10](#10-kasuri-first-kente-and-dumbara-wait) | Kasuri first; kente and Dumbara wait | 17 Nov 2026 | Built |
 | [11](#11-one-cloth-turns-into-the-next) | One cloth turns into the next | 18 Nov 2026 | Built |
 | [12](#12-block-weaves-damask-and-double-cloth-face-only) | Block weaves: damask and double cloth, face only | 18 Nov 2026 | Built |
+| [13](#13-settings-in-the-page-written-into-the-address) | Settings in the page, written into the address | 18 Nov 2026 | Built |
 
 ## 1. Working name: Light Weaver
 
@@ -72,7 +73,7 @@ Template:
 ## 4. A passive visual
 
 - **Date:** 17 November 2026
-- **Status:** Decided
+- **Status:** Replaced by [13](#13-settings-in-the-page-written-into-the-address)
 - **What prompted it:** Described from the start as another passive visual, like Cat's Eyes.
 - **Decision:** No controls while it plays; anything that varies is chosen before it starts.
 - **Alternatives considered:** None discussed.
@@ -149,3 +150,12 @@ Template:
 - **Decision:** Monk's belt and bird's eye are drafts like the others. Damask and double cloth are drawn from a block motif (a grid of figure and ground, as a Jacquard or a profile draft gives it) with a weave for each: warp satin and weft sateen for damask; two plain-weave layers for double cloth, of which only the face is drawn. The motifs are our own. Rosepath, shepherd's check, estate checks, Witney bands and the Hudson's Bay stripe wait, for sources or permission.
 - **Alternatives considered:** Drawing both layers of double cloth thread by thread, which would show the hidden layer speckled through the face, which real cloth does not; writing damask as a many-shaft draft, which would be long and say nothing a block grid does not.
 - **What follows from it:** `src/core/blocks.ts` can carry other block weaves later (summer and winter, overshot) from the same kind of motif.
+
+## 13. Settings in the page, written into the address
+
+- **Date:** 18 November 2026
+- **Status:** Built
+- **What prompted it:** Eleanor asked for a way to choose settings from within the page, not only by typing query parameters (the `?name=value` part of the address).
+- **Decision:** A settings panel, opened from a small button that appears only while the mouse moves or a key is pressed and fades after three seconds. It covers the designs to play, rows per design, speed, blend, thread size, the tartan seed, typed setts and captions. Pressing Weave writes the choices into the address and starts again, so the piece itself still has no controls while it plays, and every choice can be shared as a link.
+- **Alternatives considered:** Changing settings live as the cloth weaves, which would feel more immediate but makes the same address no longer give the same cloth; keyboard shortcuts only, which are quicker but hidden; leaving it to the address, as decision 4 had it.
+- **What follows from it:** Replaces "no controls" in [decision 4](#4-a-passive-visual) with "no controls while it plays"; left alone, it is as passive as before. The address is read in one place, `src/address.ts`.

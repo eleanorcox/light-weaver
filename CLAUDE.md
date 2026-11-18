@@ -11,7 +11,7 @@ How we work, git, writing and subagent rules are shared by all the projects and 
 - **Respect is part of the catalogue.** Each tradition's file records what is appropriate to reproduce. Restricted or sacred designs are left out. Traditions are named accurately, not as a country or a vague region, and are not mixed into hybrids unless Eleanor chooses to.
 - **Protected names stay off our cloth.** "Harris Tweed" and its Orb are protected by law and by the Harris Tweed Authority: our output is never called Harris Tweed. Use "tweed in the tradition of Hebridean weaving". Named mill designs (such as Melin Tregwynt's) are not reproduced without permission. See [docs/research/british-traditions.md](docs/research/british-traditions.md).
 - **Every design is in the gallery.** A new design gets a screenshot (`npm run screenshots <name>`) and an entry in [docs/designs.md](docs/designs.md), in the same commit. A test checks both.
-- **It is only watched.** No controls while it plays; anything that varies is chosen before it starts.
+- **It is only watched while it plays.** Settings are chosen before it starts, in the address or the settings panel (which writes the address and starts again); the button hides itself when nobody is moving the mouse.
 - **Our own piece, not a copy.** Moyer's Illoominated II is the inspiration and is credited; the plan does not reproduce its look or set-up.
 
 ## Commands
@@ -35,4 +35,5 @@ Run `npm test` and `npm run typecheck` before calling anything done.
 - `src/core/blocks.ts` weaves a block motif (figure and ground) as damask or double cloth.
 - `src/core/programme.ts` plays pieces one after another, each turning into the next thread by thread; `src/core/palette.ts` reads `?colours=`.
 - `src/scenes.ts` holds every design (a draft and colour orders in lettered colours) and builds the programme from the address.
-- Address settings, not controls: `?scene=`, `?play=`, `?picks=`, `?colours=`, `?seed=`, `?sett=` (repeatable), `?blend=` (rows a change between pieces is spread over), `?speed=` (picks per second), `?cell=` (pixels per thread), `?caption=off`.
+- `src/address.ts` reads and writes the settings in the address; `src/panel.ts` is the settings panel.
+- Address settings (query parameters), also set from the panel: `?scene=`, `?play=`, `?picks=`, `?colours=`, `?seed=`, `?sett=` (repeatable), `?blend=` (rows a change between pieces is spread over), `?speed=` (picks per second), `?cell=` (pixels per thread), `?caption=off`.

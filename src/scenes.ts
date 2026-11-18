@@ -112,6 +112,13 @@ const DESIGNS: Record<string, Design> = {
 
 export const SCENE_NAMES = ['tartan', ...Object.keys(DESIGNS)];
 
+// A short name for each design, for the settings panel: its caption up to the colon, without
+// "in the tradition of", which the caption still says in full.
+export const DESIGN_LABELS: Record<string, string> = {
+  tartan: 'A made-up tartan',
+  ...Object.fromEntries(Object.entries(DESIGNS).map(([name, d]) => [name, d.caption.split(':')[0]!.split(', in the tradition')[0]!])),
+};
+
 interface Settings {
   colours: Palette;
   picks: number;

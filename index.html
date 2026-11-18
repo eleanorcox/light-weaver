@@ -12,6 +12,47 @@
         font: 0.85rem/1.4 system-ui, sans-serif; letter-spacing: 0.02em;
         color: #f4ecd8; opacity: 0.55; max-width: 60ch;
       }
+      /* The settings: a button that shows only while the mouse moves, and a panel. */
+      .open, .panel {
+        position: fixed; top: 1rem; right: 1rem; color: #f4ecd8;
+        font: 0.85rem/1.4 system-ui, sans-serif; letter-spacing: 0.02em;
+      }
+      .open {
+        background: #0c0c16cc; border: 1px solid #f4ecd833; border-radius: 999px;
+        padding: 0.4rem 0.9rem; cursor: pointer; opacity: 0; transition: opacity 0.6s;
+      }
+      .open.awake, .open:focus-visible { opacity: 0.8; }
+      .panel {
+        width: min(22rem, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); overflow-y: auto; box-sizing: border-box;
+        background: #0c0c16ee; border: 1px solid #f4ecd826; border-radius: 0.75rem; padding: 0.75rem 1rem 1rem;
+        backdrop-filter: blur(6px);
+      }
+      .panel[hidden] { display: none; }
+      .panel header { display: flex; justify-content: space-between; align-items: center; }
+      .panel h2 { font-size: 1rem; font-weight: 500; margin: 0; }
+      .panel fieldset { border: 0; border-top: 1px solid #f4ecd81f; margin: 0.75rem 0 0; padding: 0.5rem 0 0; }
+      .panel legend { opacity: 0.6; padding: 0 0.25rem 0 0; }
+      .panel .designs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.15rem 0.75rem; margin-top: 0.4rem; }
+      .panel .design { display: flex; gap: 0.4rem; align-items: baseline; font-size: 0.8rem; }
+      .panel .row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0.1rem 0.5rem; margin: 0.35rem 0; }
+      .panel .row input[type=range] { grid-column: 1 / -1; grid-row: 2; width: 100%; accent-color: #ffd23a; }
+      .panel output { opacity: 0.7; font-variant-numeric: tabular-nums; }
+      .panel .stack { display: grid; gap: 0.25rem; margin: 0.35rem 0; }
+      .panel input[type=number], .panel textarea {
+        background: #ffffff0f; color: inherit; border: 1px solid #f4ecd833; border-radius: 0.35rem;
+        padding: 0.3rem 0.45rem; font: inherit; width: 9rem; box-sizing: border-box;
+      }
+      .panel textarea { width: 100%; font-family: ui-monospace, monospace; resize: vertical; }
+      .panel input[type=checkbox] { accent-color: #ffd23a; }
+      .panel .pair { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+      .panel button {
+        background: #ffffff12; color: inherit; border: 1px solid #f4ecd833; border-radius: 0.35rem;
+        padding: 0.35rem 0.8rem; font: inherit; cursor: pointer;
+      }
+      .panel button:hover { background: #ffffff22; }
+      .panel .weave { background: #ffd23a; color: #05050a; border-color: #ffd23a; font-weight: 600; }
+      .panel .close { border: 0; background: none; font-size: 1.3rem; line-height: 1; padding: 0.2rem 0.4rem; }
+      .panel :focus-visible { outline: 2px solid #ffd23a; outline-offset: 2px; }
     </style>
   </head>
   <body>

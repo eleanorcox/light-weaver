@@ -10,11 +10,11 @@
       #caption {
         position: fixed; left: 1.5rem; bottom: 1.25rem; margin: 0;
         font: 0.85rem/1.4 system-ui, sans-serif; letter-spacing: 0.02em;
-        color: #f4ecd8; opacity: 0.55; max-width: 60ch;
+        color: #f4ecd8; opacity: 0.55; max-width: min(60ch, calc(100vw - 10rem));
       }
       /* The settings: a button that shows only while the mouse moves, and a panel. */
       .open, .panel {
-        position: fixed; top: 1rem; right: 1rem; color: #f4ecd8;
+        position: fixed; bottom: 1rem; right: 1rem; color: #f4ecd8;
         font: 0.85rem/1.4 system-ui, sans-serif; letter-spacing: 0.02em;
       }
       .open {

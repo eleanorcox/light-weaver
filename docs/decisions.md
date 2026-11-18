@@ -37,8 +37,9 @@ Template:
 | [6](#6-british-traditions-first) | British traditions first | 17 Nov 2026 | Decided |
 | [7](#7-the-same-set-up-as-the-aquarium-canvas-2d-first) | The same set-up as the aquarium; Canvas 2D first | 17 Nov 2026 | Built |
 | [8](#8-made-up-tartans-before-registered-ones) | Made-up tartans before registered ones | 17 Nov 2026 | Built |
-| [9](#9-one-cloth-after-another) | One cloth after another | 17 Nov 2026 | Built |
+| [9](#9-one-cloth-after-another) | One cloth after another | 17 Nov 2026 | Replaced by 11 |
 | [10](#10-kasuri-first-kente-and-dumbara-wait) | Kasuri first; kente and Dumbara wait | 17 Nov 2026 | Built |
+| [11](#11-one-cloth-turns-into-the-next) | One cloth turns into the next | 18 Nov 2026 | Built |
 
 ## 1. Working name: Light Weaver
 
@@ -115,7 +116,7 @@ Template:
 ## 9. One cloth after another
 
 - **Date:** 17 November 2026
-- **Status:** Built
+- **Status:** Replaced by [11](#11-one-cloth-turns-into-the-next)
 - **What prompted it:** Eleanor asked for weaving one cloth into another. A passive piece should move through designs by itself.
 - **Decision:** A programme of pieces, each woven for a number of picks, with 16 picks of bare loom between them, repeating for ever. With no address, every design plays in turn; `?play=` chooses a list. The unwoven warp and the caption change with each piece.
 - **Alternatives considered:** Changing the weft and treadling on the same warp, as a real loom would between pieces. Truer to weaving, but most designs differ in their warp too.
@@ -129,3 +130,12 @@ Template:
 - **Decision:** Build kasuri now, with our own motif, called "kasuri, in the tradition of Kurume". Kente waits until Eleanor decides whether to ask the National Folklore Board; Dumbara waits for motif sources.
 - **Alternatives considered:** Building kente from structure alone without asking; lost because the Board's position on artistic use is unclear and asking is the respectful order.
 - **What follows from it:** Thread colours may now change along a thread's length (`warpColour(i, j)`), which ikat and other dyed traditions will also need.
+
+## 11. One cloth turns into the next
+
+- **Date:** 18 November 2026
+- **Status:** Built
+- **What prompted it:** Eleanor asked for the change from one weave to another to be seamless, and for a way to weave tartans one into another.
+- **Decision:** No bare loom between pieces. Each warp thread changes to the next piece at its own pick, within a band (32 picks by default, `?blend=`) around where the new piece starts, so the two cloths meet along a soft, wavy line that differs at every change and is the same each time round. The unwoven warp changes thread by thread with it. Several setts can be typed (`?sett=...&sett=...`) and are woven one into the next.
+- **Alternatives considered:** A cross-fade of colours, which would blend two cloths into a third that neither tradition has; a straight line, which is what a real loom gives but reads as a cut (still available as `?blend=0`); keeping one warp and changing only the weft, which most pairs of designs cannot do because their warps differ.
+- **What follows from it:** Replaces the 16 picks of bare loom from [decision 9](#9-one-cloth-after-another); the rest of 9 stands. Every crossing, not every row, now asks which piece it belongs to.

@@ -59,6 +59,19 @@ describe('a sett typed into the address', () => {
     expect(piece.cloth.warpColour(0, 0)).toBe(piece.cloth.weftColour(0, 0));
   });
 
+  it('weaves several typed setts one into another, in the order given', () => {
+    const scene = sceneFromAddress('?sett=B6G6B6R2Y4&sett=K4R24K24Y4&picks=80');
+    expect(scene.name).toBe('play');
+    expect(scene.pieces.map((p) => p.caption)).toEqual([expect.stringMatching(/B6 G6 B6 R2 Y4/), expect.stringMatching(/K4 R24 K24 Y4/)]);
+    expect(scene.pieces.every((p) => p.picks === 80)).toBe(true);
+  });
+
+  it('weaves the setts it can read when one of several cannot be, and says which', () => {
+    const scene = sceneFromAddress('?sett=B6G6&sett=banana&sett=K4R24');
+    expect(scene.pieces).toHaveLength(2);
+    expect(scene.pieces[0]!.caption).toMatch(/banana/);
+  });
+
   it('falls back to a made-up tartan and says what was wrong with a sett it cannot read', () => {
     const scene = sceneFromAddress('?sett=B6 banana');
     expect(scene.name).toBe('tartan');

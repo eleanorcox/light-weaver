@@ -118,17 +118,27 @@ export function sceneFromAddress(search: string, random: () => number = Math.ran
   const given = Number.parseInt(params.get('seed') ?? '', 10);
   const seed = Number.isFinite(given) ? given : Math.floor(random() * 1_000_000);
 
-  const typed = params.get('sett');
-  if (typed !== null) {
-    try {
-      const sett = formatSett(parseSett(typed));
-      const cloth = tartan({ sett, symmetry: 'symmetric', colours: { ...LIGHT, ...settings.colours } });
-      return { name: 'sett', pieces: [{ cloth, caption: `${settings.note}Your tartan · sett ${sett}`, picks: settings.picks }] };
-    } catch (error) {
-      const reason = error instanceof Error ? error.message : String(error);
-      settings.note += `Could not weave that sett: ${reason}. Showing instead: `;
+  // One or more typed setts (?sett=...&sett=...), each woven into the next.
+  const typed = params.getAll('sett');
+  if (typed.length > 0) {
+    const problems: string[] = [];
+    const pieces: Piece[] = [];
+    for (const text of typed) {
+      try {
+        const sett = formatSett(parseSett(text));
+        const cloth = tartan({ sett, symmetry: 'symmetric', colours: { ...LIGHT, ...settings.colours } });
+        pieces.push({ cloth, caption: `Your tartan · sett ${sett}`, picks: settings.picks });
+      } catch (error) {
+        problems.push(`Could not weave that sett: ${error instanceof Error ? error.message : String(error)}. `);
+      }
+    }
+    const note = settings.note + problems.join('');
+    if (pieces.length === 0) {
+      settings.note = `${note}Showing instead: `;
       return { name: 'tartan', seed, pieces: [madeUpTartan(seed, settings)] };
     }
+    pieces[0] = { ...pieces[0]!, caption: note + pieces[0]!.caption };
+    return { name: pieces.length > 1 ? 'play' : 'sett', pieces };
   }
 
   const scene = params.get('scene');

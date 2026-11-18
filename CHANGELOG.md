@@ -6,7 +6,13 @@ Versions are numbered v1, v2 and so on, each with a git tag of the same name. Ne
 
 ## Unreleased
 
-Nothing yet.
+### Changed
+
+- One cloth now turns into the next with no bare loom between: warp thread by warp thread, along a soft, wavy line, with the unwoven warp changing too. `?blend=` sets how many rows the change is spread over (32 by default; 0 for a straight line).
+
+### Added
+
+- Several tartans woven one into another: repeat `sett=` in the address, as in `?sett=B6G6B6R2Y4&sett=K4R24K24Y4`. Made-up ones: `?play=tartan,tartan,tartan`.
 
 ## v2: one cloth after another (17 November 2026)
 

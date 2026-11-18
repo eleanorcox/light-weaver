@@ -1,6 +1,6 @@
 # Design gallery
 
-Every design Light Weaver can weave, each as it looks on the loom. Choose one with the address shown, or play them all in turn with no address at all.
+Every design Light Weaver can weave, each as it looks on the loom. Choose one with the address shown, play a few in turn with `?play=glen,kasuri,tartan`, or play them all with no address at all. Each turns into the next thread by thread.
 
 Screenshots are taken by `npm run screenshots` (all of them) or `npm run screenshots <name>` (one). A test fails if a design has no screenshot here, so every new design gets one.
 

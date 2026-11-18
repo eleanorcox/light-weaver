@@ -1,5 +1,5 @@
 import type { Cloth } from '../core/cloth';
-import type { Place } from '../core/programme';
+import type { Place, Programme } from '../core/programme';
 
 export interface LoomOptions {
   cell: number; // CSS pixels per thread
@@ -13,7 +13,7 @@ export interface LoomOptions {
 const BACKGROUND = '#05050a';
 
 // Draws one crossing as a short glowing dash: upright where the warp is on top, level where
-// the weft is.
+// the weft is. j is the pick within the piece the crossing belongs to.
 function drawCrossing(ctx: CanvasRenderingContext2D, cloth: Cloth, i: number, j: number, x: number, y: number, c: number): void {
   const up = cloth.warpUp(i, j);
   const colour = up ? cloth.warpColour(i, j) : cloth.weftColour(j, i);
@@ -39,7 +39,7 @@ function threadStyle(ctx: CanvasRenderingContext2D, c: number): void {
 // Weaves the cloth for ever: each pick (one pass of the weft) is carried across by a point of
 // light, then joins the woven cloth above, which moves up a row. Woven rows are drawn once
 // into an offscreen canvas; the frame copies it and adds the row being woven.
-export function startLoom(canvas: HTMLCanvasElement, at: (j: number) => Place | null, options: LoomOptions): () => void {
+export function startLoom(canvas: HTMLCanvasElement, programme: Programme, options: LoomOptions): () => void {
   const ctx = canvas.getContext('2d')!;
   const woven = document.createElement('canvas');
   const wovenCtx = woven.getContext('2d')!;
@@ -56,19 +56,18 @@ export function startLoom(canvas: HTMLCanvasElement, at: (j: number) => Place | 
   let start = performance.now();
   let frame = 0;
 
-  // Draws pick j of the programme; a gap between pieces is left as bare dark loom.
+  // Draws pick j of the programme, each crossing from the piece it belongs to, so where one
+  // piece hands over to the next the row holds some of each.
   function drawRowInto(target: CanvasRenderingContext2D, j: number, y: number, upTo: number, fromRight: boolean): void {
-    const place = at(j);
-    if (!place) return;
     threadStyle(target, c);
     for (let n = 0; n < upTo; n++) {
       const i = fromRight ? columns - 1 - n : n;
+      const place = programme.crossing(i, j);
       drawCrossing(target, place.piece.cloth, i, place.pick, i * c, y, c);
     }
   }
 
-  let warpCloth: Cloth | null = null;
-  let warpFrom = 0; // the pick at the fell when the warp was drawn
+  let warpPick = 0; // the pick at the fell when the warp was drawn
   let lastIndex = -1;
 
   // Rebuilds everything at the current size. The cloth is the same for the same pick numbers,
@@ -102,19 +101,19 @@ export function startLoom(canvas: HTMLCanvasElement, at: (j: number) => Place | 
       if (j >= 0) drawRowInto(wovenCtx, j, fellY - (rowsAbove - r) * c, columns, false);
     }
 
+    warpPick = committed;
     drawWarp();
   }
 
-  // The unwoven warp below the fell, fading into the dark, for the piece being woven.
+  // The unwoven warp below the fell, fading into the dark: each thread in the colour of the
+  // piece it is weaving now, so during a hand-over the warp changes thread by thread too.
   function drawWarp(): void {
     warpCtx.clearRect(0, 0, width, height);
-    const cloth = warpCloth;
-    if (!cloth) return;
-    const warpPick = warpFrom;
     warpCtx.lineWidth = c * 0.3;
     for (let i = 0; i < columns; i++) {
+      const place = programme.crossing(i, warpPick);
       const g = warpCtx.createLinearGradient(0, fellY, 0, height);
-      g.addColorStop(0, cloth.warpColour(i, warpPick));
+      g.addColorStop(0, place.piece.cloth.warpColour(i, place.pick));
       g.addColorStop(1, 'transparent');
       warpCtx.strokeStyle = g;
       warpCtx.globalAlpha = 0.45;
@@ -144,13 +143,15 @@ export function startLoom(canvas: HTMLCanvasElement, at: (j: number) => Place | 
     const pick = Math.floor(progress);
     while (committed < pick) commit(committed++);
 
-    const place = at(pick);
-    if (place && place.index !== lastIndex) {
+    const place = programme.row(pick);
+    if (place.index !== lastIndex) {
       lastIndex = place.index;
-      warpCloth = place.piece.cloth;
-      warpFrom = place.pick;
-      drawWarp();
       options.onPiece?.(place);
+    }
+    // Redrawn on each new pick, as threads change piece one by one during a hand-over.
+    if (pick !== warpPick) {
+      warpPick = pick;
+      drawWarp();
     }
 
     ctx.globalCompositeOperation = 'source-over';
@@ -165,12 +166,14 @@ export function startLoom(canvas: HTMLCanvasElement, at: (j: number) => Place | 
     const reached = Math.floor((progress - pick) * columns);
     drawRowInto(ctx, pick, fellY, reached, fromRight);
 
-    if (place) {
+    {
       const sx = fromRight ? width - reached * c : reached * c;
       const sy = fellY + c / 2;
+      const i = Math.min(columns - 1, fromRight ? columns - 1 - reached : reached);
+      const here = programme.crossing(i, pick);
       const glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, c * 5);
       glow.addColorStop(0, '#ffffff');
-      glow.addColorStop(0.15, place.piece.cloth.weftColour(place.pick, reached));
+      glow.addColorStop(0.15, here.piece.cloth.weftColour(here.pick, i));
       glow.addColorStop(1, 'transparent');
       ctx.shadowBlur = 0;
       ctx.globalCompositeOperation = 'lighter';

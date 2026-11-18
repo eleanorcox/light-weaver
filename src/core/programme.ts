@@ -8,26 +8,85 @@ export interface Piece {
 
 export interface Place {
   index: number; // which piece
-  pick: number; // the pick within that piece, from 0
+  pick: number; // the pick within that piece, from 0 at its start (negative where it starts early)
   piece: Piece;
 }
 
-// One cloth after another, for ever: each piece for its number of picks, then `gap` picks of
-// bare loom before the next. Returns what is woven at pick j, or null in a gap.
-export function programme(pieces: readonly Piece[], gap: number): (j: number) => Place | null {
+export interface Programme {
+  // The piece a whole row belongs to, for the caption: the next piece takes over at its start.
+  row(j: number): Place;
+  // The piece woven at one crossing. Near a change, some warp threads have already moved on to
+  // the next piece and some have not, so the two cloths meet along an uneven line.
+  crossing(i: number, j: number): Place;
+}
+
+// Threads between the points that set the line's height; the line curves smoothly between them.
+const SPAN = 24;
+
+// A repeatable number from 0 to 1 for a pair of whole numbers.
+function hash(a: number, b: number): number {
+  let h = Math.imul(a ^ 0x9e3779b9, 0x85ebca6b) ^ Math.imul(b ^ 0xc2b2ae35, 0x27d4eb2f);
+  h = Math.imul(h ^ (h >>> 15), 0x2c1b3c6d);
+  h = Math.imul(h ^ (h >>> 12), 0x297a2d39);
+  return ((h ^ (h >>> 15)) >>> 0) / 4294967296;
+}
+
+// How far from -1 to 1 thread i changes early or late at change k: a gentle wave across the
+// cloth, different at every change.
+function wave(i: number, k: number): number {
+  const knot = Math.floor(i / SPAN);
+  const t = (1 - Math.cos(((i - knot * SPAN) / SPAN) * Math.PI)) / 2;
+  const a = hash(k, knot);
+  const b = hash(k, knot + 1);
+  return 2 * (a + (b - a) * t) - 1;
+}
+
+// One cloth after another, for ever, with no bare loom between: each piece for its number of
+// picks, the next taking over warp thread by warp thread within `blend` picks of its start.
+export function programme(pieces: readonly Piece[], blend: number): Programme {
   if (pieces.length === 0) throw new Error('A programme needs at least one piece');
   const starts: number[] = [];
   let total = 0;
   for (const p of pieces) {
     starts.push(total);
-    total += p.picks + gap;
+    total += p.picks;
   }
-  return (j) => {
-    const t = ((j % total) + total) % total;
+  // Half the blend, kept inside the shortest piece so a thread never skips a whole piece.
+  const shortest = Math.min(...pieces.map((p) => p.picks));
+  const half = pieces.length > 1 ? Math.max(0, Math.min(Math.floor(blend / 2), Math.floor((shortest - 1) / 2))) : 0;
+
+  // The piece at pick j for a straight change, and where that piece started.
+  function plain(j: number): { index: number; start: number } {
+    const round = Math.floor(j / total);
+    const t = j - round * total;
     let index = pieces.length - 1;
     while (starts[index]! > t) index--;
-    const pick = t - starts[index]!;
-    const piece = pieces[index]!;
-    return pick < piece.picks ? { index, pick, piece } : null;
+    return { index, start: round * total + starts[index]! };
+  }
+
+  const place = (index: number, start: number, j: number): Place => ({ index, pick: j - start, piece: pieces[index]! });
+
+  // The pick at which thread i changes to the piece starting at `start`.
+  const change = (i: number, index: number, start: number): number => start + Math.round(half * wave(i, index));
+
+  return {
+    row(j) {
+      const { index, start } = plain(j);
+      return place(index, start, j);
+    },
+    crossing(i, j) {
+      const { index, start } = plain(j);
+      if (half === 0) return place(index, start, j);
+      // Not yet changed to this piece: still weaving the one before.
+      if (j < change(i, index, start)) {
+        const before = plain(start - 1);
+        return place(before.index, before.start, j);
+      }
+      // Already changed to the next piece.
+      const nextStart = start + pieces[index]!.picks;
+      const next = (index + 1) % pieces.length;
+      if (j >= change(i, next, nextStart)) return place(next, nextStart, j);
+      return place(index, start, j);
+    },
   };
 }

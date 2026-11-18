@@ -57,7 +57,8 @@ export function startPanel(settings: Settings, options: PanelOptions = {}): Pane
   const panel = el('form', { className: 'panel', hidden: true, ariaLabel: 'Settings' });
 
   // Designs: ticked to play. The made-up tartan can be played several times over.
-  const many = el('input', { type: 'number', min: '1', max: '9', step: '1', className: 'many', ariaLabel: 'How many made-up tartans' });
+  const MOST_TARTANS = 100;
+  const many = el('input', { type: 'number', min: '1', max: String(MOST_TARTANS), step: '1', className: 'many', ariaLabel: 'How many made-up tartans' });
   const boxes = SCENE_NAMES.map((name) => {
     const box = el('input', { type: 'checkbox', value: name });
     const row = el('label', { className: 'design' }, box, el('span', {}, label(name)));
@@ -71,10 +72,12 @@ export function startPanel(settings: Settings, options: PanelOptions = {}): Pane
     return { name, box };
   });
   many.addEventListener('input', () => {
-    const n = Math.max(1, Math.min(9, Number.parseInt(many.value, 10) || 1));
+    const n = Math.max(1, Math.min(MOST_TARTANS, Number.parseInt(many.value, 10) || 1));
     play = setCount(play, 'tartan', n);
     refresh();
   });
+  // Once typing is done, show the number actually played (at most MOST_TARTANS).
+  many.addEventListener('change', () => (many.value = String(count(play, 'tartan'))));
   const designs = el('div', { className: 'designs' }, ...boxes.map((b) => b.box.parentElement!));
   // Fill the first column, then the second, so the list reads down in gallery order.
   designs.style.setProperty('--rows', String(Math.ceil(SCENE_NAMES.length / 2)));

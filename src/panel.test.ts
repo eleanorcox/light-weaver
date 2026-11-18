@@ -36,6 +36,17 @@ describe('the settings panel', () => {
     expect(weave.classList.contains('changed')).toBe(true);
   });
 
+  it('plays up to 100 made-up tartans, and no more', () => {
+    click(box('tartan'));
+    const many = document.querySelector<HTMLInputElement>('.many')!;
+    for (const [typed, expected] of [['100', 100], ['250', 100]] as const) {
+      many.value = typed;
+      many.dispatchEvent(new Event('input', { bubbles: true }));
+      expect(order().filter((n) => n.startsWith('A made-up tartan'))).toHaveLength(expected);
+    }
+    expect(many.max).toBe('100');
+  });
+
   it('starts with every design ticked when the address names none', () => {
     document.body.replaceChildren();
     startPanel(DEFAULTS);

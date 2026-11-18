@@ -6,6 +6,10 @@ Versions are numbered v1, v2 and so on, each with a git tag of the same name. Ne
 
 ## Unreleased
 
+Nothing yet.
+
+## v3: one cloth into the next (18 November 2026)
+
 ### Changed
 
 - One cloth now turns into the next with no bare loom between: warp thread by warp thread, along a soft, wavy line, with the unwoven warp changing too. `?blend=` sets how many rows the change is spread over (32 by default; 0 for a straight line).
